@@ -42,7 +42,7 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
 
 
     // 压缩图片并上传
-  const uphostUrl = 'https://telegra.ph';
+  const uphostUrl = 'https://testupimg.wook.eu.org';
     return handleCompressFile(file).then(compressedFile => {
         formData.append("file", compressedFile);
         return fetch(`${uphostUrl}${uploadEndpoint}`, {
