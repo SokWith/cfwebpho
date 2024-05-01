@@ -52,12 +52,13 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file, callback) {
 
 function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
     const photoUrlInput = document.getElementById('photoUrl');
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.style.display = 'none';
-    document.body.appendChild(fileInput);
+    const realFileInput = document.createElement('input');
+    realFileInput.type = 'file';
+    realFileInput.multiple = true;
+    realFileInput.style.display = 'none';
+    document.body.appendChild(realFileInput); // 将文件输入元素添加到DOM中
 
-    fileInput.addEventListener('change', function(event) {
+    realFileInput.addEventListener('change', function(event) {
         const files = event.target.files;
         if (files.length > 0) {
             const file = files[0];
@@ -70,11 +71,10 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
 
     photoUrlInput.addEventListener('click', function() {
         if (!photoUrlInput.value) {
-            fileInput.click();
+            realFileInput.click();
         }
     });
 }
-
 document.addEventListener('DOMContentLoaded', function() {
     setupFileInputAndUpload('/upload', 'https://imghost.wook.eu.org');
 });
