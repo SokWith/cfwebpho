@@ -77,11 +77,7 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
         // 处理文件上传的逻辑
             const uploadPromises = Array.from(files).map(file => {
             return uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file);
-    } else {
-        // 如果没有选择文件，确保不会执行其他操作
-        event.preventDefault();
-    }
-        });
+    } 
 
         Promise.all(uploadPromises)
             .then(fullUrls => {
@@ -91,7 +87,11 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
             .catch(error => {
                 console.error('上传失败:', error);
             });
-    });
+    }else {
+        // 如果没有选择文件，确保不会执行其他操作
+        event.preventDefault();
+    }
+        });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
