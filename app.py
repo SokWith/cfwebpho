@@ -8,7 +8,7 @@ if len(username) < 6:
     print("用户名长度需大于等于6个字符")
 else:
     # 进入相册界面
-    kv_space_name = os.getenv("webphostore")
+    kv_space_name = os.getenv("cfwebstore")
     directory_list = get_directory_list(kv_space_name, username)
     display_directory_list(directory_list)
     
