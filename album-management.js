@@ -119,5 +119,5 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    setupFileInputAndUpload('/upload', 'https://imghost.example.com');
+    setupFileInputAndUpload('/upload', 'https://imghost.wook.eu.org');
 });
