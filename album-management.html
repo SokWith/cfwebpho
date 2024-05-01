@@ -1,0 +1,52 @@
+<!-- album-management.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>相册管理</title>
+</head>
+<body>
+    <h1>相册管理</h1>
+    <div id="photoWall"></div>
+    <input type="text" id="photoInfo" placeholder="图片URL地址,图片名称">
+    <button onclick="submitPhotos()">批量提交图片</button>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get('username');
+        const directory = params.get('directory');
+
+        async function getPhotos() {
+            const response = await fetch(`./get-photos?username=${username}&directory=${directory}`);
+            const photos = await response.json();
+            const photoWall = document.getElementById('photoWall');
+            photos.forEach(photo => {
+                let img = document.createElement('img');
+                img.src = photo.url;
+                img.alt = photo.name;
+                img.style.width = '100px'; // 设置图片大小
+                img.style.margin = '5px';
+                let caption = document.createElement('p');
+                caption.textContent = photo.name;
+                photoWall.appendChild(img);
+                photoWall.appendChild(caption);
+            });
+        }
+
+        async function submitPhotos() {
+            const photoData = document.getElementById('photoInfo').value;
+            const response = await fetch('./submit-photos', {
+                method: 'POST',
+                body: JSON.stringify({ username, directory, photoData }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Failed to submit photos');
+            }
+        }
+
+        getPhotos(); // 页面加载时获取照片
+    </script>
+</body>
+</html>
