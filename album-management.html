@@ -4,18 +4,66 @@
 <head>
     <meta charset="UTF-8">
     <title>管理相册</title>
+    <style>
+        /* 模态窗口（lightbox）样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h1 id="albumTitle"></h1>
     <div id="photoWall"></div>
     <textarea id="photoUrl" placeholder="输入图片URL地址" cols="60" rows="5"></textarea>
     <button onclick="submitPhoto()">提交图片</button>
+
+    <!-- 模态窗口（lightbox）元素 -->
+    <div id="myModal" class="modal">
+        <span class="close">×</span>
+        <img class="modal-content" id="img01">
+    </div>
+
     <script>
         const params = new URLSearchParams(window.location.search);
         const username = params.get('username');
         const directory = params.get('directory');
         document.getElementById('albumTitle').textContent = `管理${directory}相册`;
 
+        // 获取照片并添加点击事件
         async function getPhotos() {
             const response = await fetch(`./get-photos?username=${username}&directory=${directory}`);
             const photoUrls = await response.json();
@@ -25,30 +73,39 @@
                 img.src = url;
                 img.style.width = '100px'; // 设置图片大小
                 img.style.margin = '5px';
+                img.onclick = function() {
+                    document.getElementById('myModal').style.display = "block";
+                    document.getElementById('img01').src = this.src;
+                }
                 photoWall.appendChild(img);
             });
         }
 
-    async function submitPhoto() {
-    // 获取用户输入的多行URL地址
-    const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
-    // 确保每个URL都不是空字符串
-    const validPhotoUrls = photoUrls.filter(url => url.trim() !== '');
-    // 将有效的URL地址数组转换为多行文本
-    const photoUrlsString = validPhotoUrls.join('\n');
-    // 提交处理后的URL地址字符串
-    const response = await fetch('./submit-photos', {
-        method: 'POST',
-        body: JSON.stringify({ username, directory, photoUrlsString }),
-        headers: { 'Content-Type': 'application/json' }
-    });
-    if (response.ok) {
-        window.location.reload();
-    } else {
-        console.error('Failed to submit photo');
-    }
-}
+        // 获取模态窗口元素
+        var modal = document.getElementById('myModal');
+        // 获取 <span> 元素，用于关闭模态窗口
+        var span = document.getElementsByClassName("close")[0];
 
+        // 当用户点击 <span> (x), 关闭模态窗口
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        async function submitPhoto() {
+            const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
+            const validPhotoUrls = photoUrls.filter(url => url.trim() !== '');
+            const photoUrlsString = validPhotoUrls.join('\n');
+            const response = await fetch('./submit-photos', {
+                method: 'POST',
+                body: JSON.stringify({ username, directory, photoUrlsString }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Failed to submit photo');
+            }
+        }
 
         getPhotos(); // 页面加载时获取照片
     </script>
