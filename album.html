@@ -6,25 +6,35 @@
     <title>相册</title>
 </head>
 <body>
-    <h1>相册</h1>
+    <h1>欢迎来到您的相册</h1>
     <ul id="directoryList"></ul>
     <input type="text" id="newDirectory" placeholder="输入目录名">
     <button onclick="createDirectory()">创建目录</button>
+
     <script>
         const username = new URLSearchParams(window.location.search).get('username');
 
+        // 页面加载时获取目录列表
+        window.onload = function() {
+            getDirectories();
+        };
+
+        // 获取目录列表
         async function getDirectories() {
             const response = await fetch(`./get-directories?username=${username}`);
             const directories = await response.json();
             const directoryList = document.getElementById('directoryList');
+            directoryList.innerHTML = ''; // 清空列表
             directories.forEach(dir => {
                 let li = document.createElement('li');
                 li.textContent = dir;
-                li.onclick = () => window.location.href = `/album-management.html?username=${username}&directory=${dir}`;
+                li.style.cursor = 'pointer';
+                li.onclick = () => window.location.href = `./album-management.html?username=${username}&directory=${dir}`;
                 directoryList.appendChild(li);
             });
         }
 
+        // 创建目录
         async function createDirectory() {
             const dirName = document.getElementById('newDirectory').value;
             const response = await fetch('./create-directory', {
@@ -33,13 +43,11 @@
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
-                window.location.reload();
+                getDirectories(); // 重新获取目录列表
             } else {
                 console.error('Failed to create directory');
             }
         }
-
-        getDirectories();
     </script>
 </body>
 </html>
