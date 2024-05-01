@@ -73,8 +73,14 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
 
     realFileInput.addEventListener('change', function(event) {
         const files = event.target.files;
-        const uploadPromises = Array.from(files).map(file => {
+    if (files.length > 0) {
+        // 处理文件上传的逻辑
+            const uploadPromises = Array.from(files).map(file => {
             return uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file);
+    } else {
+        // 如果没有选择文件，确保不会执行其他操作
+        event.preventDefault();
+    }
         });
 
         Promise.all(uploadPromises)
