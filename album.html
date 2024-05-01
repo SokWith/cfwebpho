@@ -6,13 +6,14 @@
     <title>相册</title>
 </head>
 <body>
-    <h1>欢迎来到您的相册</h1>
+    <h1 id="welcomeMessage"></h1>
     <ul id="directoryList"></ul>
-    <input type="text" id="newDirectory" placeholder="输入目录名">
+    <textarea id="newDirectory" placeholder="输入目录名" cols="60" rows="1"></textarea>
     <button onclick="createDirectory()">创建目录</button>
 
     <script>
         const username = new URLSearchParams(window.location.search).get('username');
+        document.getElementById('welcomeMessage').textContent = `欢迎来到${username}的相册`;
 
         // 页面加载时获取目录列表
         window.onload = function() {
