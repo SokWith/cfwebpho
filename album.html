@@ -14,7 +14,7 @@
         const username = new URLSearchParams(window.location.search).get('username');
 
         async function getDirectories() {
-            const response = await fetch(`/functions/get-directories?username=${username}`);
+            const response = await fetch(`./get-directories?username=${username}`);
             const directories = await response.json();
             const directoryList = document.getElementById('directoryList');
             directories.forEach(dir => {
@@ -27,7 +27,7 @@
 
         async function createDirectory() {
             const dirName = document.getElementById('newDirectory').value;
-            const response = await fetch('/functions/create-directory', {
+            const response = await fetch('./create-directory', {
                 method: 'POST',
                 body: JSON.stringify({ username, dirName }),
                 headers: { 'Content-Type': 'application/json' }
