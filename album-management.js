@@ -51,6 +51,7 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file, callback) {
 }
 
 function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
+    const submitButton = document.getElementById('submitPhoto');
     const photoUrlInput = document.getElementById('photoUrl');
     const realFileInput = document.createElement('input');
     realFileInput.type = 'file';
@@ -58,9 +59,12 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
     realFileInput.style.display = 'none';
     document.body.appendChild(realFileInput); // 将文件输入元素添加到DOM中
 
-        photoUrlInput.addEventListener('click', function() {
+    submitButton.addEventListener('click', function(event) {
         if (!photoUrlInput.value) {
-            realFileInput.click();
+            event.preventDefault(); // 阻止表单提交
+            realFileInput.click(); // 打开文件选择对话框
+        } else {
+            // 这里可以添加提交表单的逻辑
         }
     });
 
@@ -75,6 +79,8 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
         }
     });
 }
+
+
 document.addEventListener('DOMContentLoaded', function() {
     setupFileInputAndUpload('/upload', 'https://imghost.wook.eu.org');
 });
