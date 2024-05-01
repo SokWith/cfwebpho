@@ -72,10 +72,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 当点击“批量添加图片”按钮时触发文件输入元素的点击事件
     submitButton.addEventListener('click', function(event) {
-        if (urlTextArea.value.trim() === '') {
-            event.preventDefault();
+      //  if (urlTextArea.value.trim() === '') {
+        //    event.preventDefault();
             realFileInput.click();
-        }
+      //  }
     });
 
     // 处理文件选择
