@@ -1,0 +1,45 @@
+<!-- album.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>相册</title>
+</head>
+<body>
+    <h1>相册</h1>
+    <ul id="directoryList"></ul>
+    <input type="text" id="newDirectory" placeholder="输入目录名">
+    <button onclick="createDirectory()">创建目录</button>
+    <script>
+        const username = new URLSearchParams(window.location.search).get('username');
+
+        async function getDirectories() {
+            const response = await fetch(`/functions/get-directories?username=${username}`);
+            const directories = await response.json();
+            const directoryList = document.getElementById('directoryList');
+            directories.forEach(dir => {
+                let li = document.createElement('li');
+                li.textContent = dir;
+                li.onclick = () => window.location.href = `/album-management.html?username=${username}&directory=${dir}`;
+                directoryList.appendChild(li);
+            });
+        }
+
+        async function createDirectory() {
+            const dirName = document.getElementById('newDirectory').value;
+            const response = await fetch('/functions/create-directory', {
+                method: 'POST',
+                body: JSON.stringify({ username, dirName }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Failed to create directory');
+            }
+        }
+
+        getDirectories();
+    </script>
+</body>
+</html>
