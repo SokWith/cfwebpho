@@ -3,10 +3,10 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>相册管理</title>
+    <title>管理相册</title>
 </head>
 <body>
-    <h1>相册管理</h1>
+    <h1 id="albumTitle"></h1>
     <div id="photoWall"></div>
     <textarea id="photoUrl" placeholder="输入图片URL地址" cols="60" rows="5"></textarea>
     <button onclick="submitPhoto()">提交图片</button>
@@ -14,6 +14,7 @@
         const params = new URLSearchParams(window.location.search);
         const username = params.get('username');
         const directory = params.get('directory');
+        document.getElementById('albumTitle').textContent = `管理${directory}相册
 
         async function getPhotos() {
             const response = await fetch(`./get-photos?username=${username}&directory=${directory}`);
