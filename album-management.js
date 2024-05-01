@@ -1,5 +1,11 @@
 // JavaScript代码，用于管理相册页面的功能
 
+// 解析URL参数
+const params = new URLSearchParams(window.location.search);
+const username = params.get('username');
+const directory = params.get('directory');
+document.getElementById('albumTitle').textContent = `管理${directory}相册`;
+
 // 页面加载时获取照片
 async function getPhotos() {
     const response = await fetch(`./get-photos?username=${username}&directory=${directory}`);
