@@ -3,8 +3,24 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file, callback) {
     const formData = new FormData();
     formData.append('file', file);
 
-    // 显示加载动画
-    // ...省略加载动画代码...
+    // 动态创建加载动画元素并添加到页面中
+    const loadingElement = document.createElement('div');
+    loadingElement.id = 'loading';
+    loadingElement.textContent = '图片加载中......';
+    document.body.appendChild(loadingElement);
+
+    // 应用加载动画的样式
+    loadingElement.style.position = 'fixed';
+    loadingElement.style.top = '50%';
+    loadingElement.style.left = '50%';
+    loadingElement.style.transform = 'translate(-50%, -50%)';
+    loadingElement.style.fontSize = '20px';
+    loadingElement.style.color = '#333';
+    loadingElement.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+    loadingElement.style.padding = '10px';
+    loadingElement.style.borderRadius = '5px';
+    loadingElement.style.zIndex = '1000';
+    //loadingElement.style.animation = 'blink 1s linear infinite';
 
     // 图片压缩和上传的逻辑
     const uphostUrl = 'https://testupimg.wook.eu.org';
