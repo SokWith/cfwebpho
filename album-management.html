@@ -29,18 +29,23 @@
         }
 
         async function submitPhoto() {
-            const photoUrl = document.getElementById('photoUrl').value;
-            const response = await fetch('./submit-photos', {
-                method: 'POST',
-                body: JSON.stringify({ username, directory, photoUrl }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            if (response.ok) {
-                window.location.reload();
-            } else {
-                console.error('Failed to submit photo');
-            }
-        }
+    // 获取用户输入的多行URL地址
+    const photoUrls = document.getElementById('photoUrl').value.split('\n');
+    // 将每一行的URL地址以分号连接
+    const photoUrlsString = photoUrls.join(';');
+    // 提交处理后的URL地址字符串
+    const response = await fetch('./submit-photos', {
+        method: 'POST',
+        body: JSON.stringify({ username, directory, photoUrlsString }),
+        headers: { 'Content-Type': 'application/json' }
+    });
+    if (response.ok) {
+        window.location.reload();
+    } else {
+        console.error('Failed to submit photo');
+    }
+}
+
 
         getPhotos(); // 页面加载时获取照片
     </script>
