@@ -26,7 +26,7 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
                     if (data.error) {
                         throw new Error(data.error);
                     }
-                    resolve(`${hostUrl}${data.path}`);
+                    resolve(`${hostUrl}${data[0].src}`);
                 })
                 .catch(error => {
                     document.body.removeChild(loadingElement); // 移除加载动画
@@ -43,7 +43,7 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
                 if (data.error) {
                     throw new Error(data.error);
                 }
-                resolve(`${hostUrl}${data.path}`);
+                resolve(`${hostUrl}${data[0].src}`);
             })
             .catch(error => {
                 document.body.removeChild(loadingElement); // 移除加载动画
