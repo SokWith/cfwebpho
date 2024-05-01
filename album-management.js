@@ -55,9 +55,6 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
             document.body.removeChild(loadingElement);
         });
     });
-}
-
-  
 
     // 压缩图片并上传
   const uphostUrl = 'https://testupimg.wook.eu.org';
@@ -74,7 +71,9 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
     });
 }
 
-}
+// 定义host URL和上传端点
+const hostUrl = 'https://imghost.wook.eu.org';
+const uploadEndpoint = '/upload';
 // 在文档加载完成后添加事件监听器
 document.addEventListener('DOMContentLoaded', function() {
     const submitButton = document.getElementById('submitPhoto');
