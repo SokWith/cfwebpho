@@ -1,9 +1,66 @@
+<!-- album-management.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <title>管理相册</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        /* 模态窗口（lightbox）样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 图片和删除按钮的容器样式 */
+        .img-container {
+            display: inline-block;
+            position: relative;
+            margin: 5px;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h1 id="albumTitle"></h1>
@@ -17,7 +74,87 @@
         <img class="modal-content" id="img01">
     </div>
 
-    <!-- 加载JavaScript文件 -->
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get('username');
+        const directory = params.get('directory');
+        document.getElementById('albumTitle').textContent = `管理${directory}相册`;
+
+        // 获取照片并添加点击事件
+        async function getPhotos() {
+            const response = await fetch(`./get-photos?username=${username}&directory=${directory}`);
+            const photoUrls = await response.json();
+            const photoWall = document.getElementById('photoWall');
+            photoUrls.forEach(url => {
+                let imgContainer = document.createElement('div');
+                imgContainer.classList.add('img-container');
+
+                let img = document.createElement('img');
+                img.src = url;
+                img.style.width = '100px'; // 设置图片大小
+                img.onclick = function() {
+                    document.getElementById('myModal').style.display = "block";
+                    document.getElementById('img01').src = this.src;
+                }
+                imgContainer.appendChild(img);
+
+                // 添加删除按钮
+                let deleteButton = document.createElement('button');
+                deleteButton.textContent = '删除';
+                deleteButton.classList.add('delete-btn');
+                deleteButton.onclick = function() {
+                    // 执行删除操作
+                    deletePhoto(url);
+                };
+                imgContainer.appendChild(deleteButton);
+
+                photoWall.appendChild(imgContainer);
+            });
+        }
+
+        // 删除照片的函数
+        async function deletePhoto(photoUrl) {
+            const response = await fetch('./delete-photo', {
+                method: 'POST',
+                body: JSON.stringify({ username, directory, photoUrl }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Failed to delete photo');
+            }
+        }
+
+        // 获取模态窗口元素
+        var modal = document.getElementById('myModal');
+        // 获取 <span> 元素，用于关闭模态窗口
+        var span = document.getElementsByClassName("close")[0];
+
+        // 当用户点击 <span> (x), 关闭模态窗口
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        async function submitPhoto() {
+            const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
+            const validPhotoUrls = photoUrls.filter(url => url.trim() !== '');
+            const photoUrlsString = validPhotoUrls.join('\n');
+            const response = await fetch('./submit-photos', {
+                method: 'POST',
+                body: JSON.stringify({ username, directory, photoUrlsString }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Failed to submit photo');
+            }
+        }
+
+        getPhotos(); // 页面加载时获取照片
+         <!-- 引入新的JavaScript文件 -->
     <script src="album-management.js"></script>
+    </script>
 </body>
 </html>
