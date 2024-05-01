@@ -8,7 +8,7 @@
 <body>
     <h1>相册管理</h1>
     <div id="photoWall"></div>
-    <input type="text" id="photoUrl" placeholder="输入图片URL地址">
+    <textarea id="photoUrl" placeholder="输入图片URL地址" cols="60" rows="5"></textarea>
     <button onclick="submitPhoto()">提交图片</button>
     <script>
         const params = new URLSearchParams(window.location.search);
