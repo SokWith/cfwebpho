@@ -40,25 +40,9 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
   });
 }
 
-  
 
     // 压缩图片并上传
   const uphostUrl = 'https://testupimg.wook.eu.org';
-    //'https://testupimg.sokwith.workers.dev'
-    return handleCompressFile(file).then(compressedFile => {
-        formData.append("file", compressedFile);
-        return fetch(`${uphostUrl}${uploadEndpoint}`, {
-            method: 'POST',
-            body: formData
-        }).finally(() => {
-            // 移除加载动画元素
-            document.body.removeChild(loadingElement);
-        });
-    });
-
-    // 压缩图片并上传
-  const uphostUrl = 'https://testupimg.wook.eu.org';
-    //'https://testupimg.sokwith.workers.dev'
     return handleCompressFile(file).then(compressedFile => {
         formData.append("file", compressedFile);
         return fetch(`${uphostUrl}${uploadEndpoint}`, {
