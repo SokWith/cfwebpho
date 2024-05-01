@@ -1,48 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CF Pages App</title>
+    <title>欢迎页面</title>
 </head>
 <body>
-    <div>
-        <label for="username-input">请输入用户名：</label>
-        <input type="text" id="username-input">
-    </div>
-    <div>
-        <label for="create-directory-input">请输入目录名：</label>
-        <input type="text" id="create-directory-input">
-        <button id="create-directory-button">创建目录</button>
-    </div>
-    <div>
-        <label for="add-photo-input">请输入图片URL地址，图片名称：</label>
-        <input type="text" id="add-photo-input">
-        <button id="add-photo-button">批量提交图片</button>
-    </div>
-
+    <h1>欢迎来到相册</h1>
+    <form id="welcomeForm">
+        <input type="text" id="username" pattern="[a-zA-Z0-9]{6,}" required>
+        <input type="submit" value="进入相册">
+    </form>
     <script>
-        // 前端代码示例，用于与后端逻辑交互展示用户界面
-        const createDirectoryButton = document.getElementById("create-directory-button");
-        const addPhotoButton = document.getElementById("add-photo-button");
-
-        createDirectoryButton.addEventListener("click", () => {
-            const username = document.getElementById("username-input").value;
-            if (username.length < 6) {
-                alert("用户名长度需大于等于6个字符");
-            } else {
-                const directoryName = document.getElementById("create-directory-input").value;
-                // 向后端发送请求，创建目录
-                // 发送请求给后端创建目录
-            }
-        });
-
-        addPhotoButton.addEventListener("click", () => {
-            const photoInput = document.getElementById("add-photo-input").value;
-            // 向后端发送请求，添加照片
-            // 发送请求给后端添加照片
-        });
+        document.getElementById('welcomeForm').onsubmit = function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            window.location.href = `/album.html?username=${username}`;
+        };
     </script>
 </body>
 </html>
