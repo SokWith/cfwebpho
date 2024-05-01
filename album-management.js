@@ -58,6 +58,12 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
     realFileInput.style.display = 'none';
     document.body.appendChild(realFileInput); // 将文件输入元素添加到DOM中
 
+        photoUrlInput.addEventListener('click', function() {
+        if (!photoUrlInput.value) {
+            realFileInput.click();
+        }
+    });
+
     realFileInput.addEventListener('change', function(event) {
         const files = event.target.files;
         if (files.length > 0) {
@@ -66,12 +72,6 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
                 photoUrlInput.value = fullUrl;
                 // 这里可以添加提交表单的逻辑
             });
-        }
-    });
-
-    photoUrlInput.addEventListener('click', function() {
-        if (!photoUrlInput.value) {
-            realFileInput.click();
         }
     });
 }
