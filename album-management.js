@@ -41,9 +41,6 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
     }
   });
 }
-
-  
-
     // 压缩图片并上传
   const uphostUrl = 'https://testupimg.wook.eu.org';
     //'https://testupimg.sokwith.workers.dev'
@@ -68,12 +65,11 @@ function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
     realFileInput.style.display = 'none';
     document.body.appendChild(realFileInput); // 将文件输入元素添加到DOM中
 
+    // 当点击“批量添加图片”按钮时触发文件输入元素的点击事件
     submitButton.addEventListener('click', function(event) {
-        if (!urlTextArea.value) {
-            event.preventDefault(); // 阻止表单提交
-            realFileInput.click(); // 打开文件选择对话框
-        } else {
-            // 这里可以添加提交表单的逻辑
+        if (urlTextArea.value.trim() === '') {
+            event.preventDefault();
+            realFileInput.click();
         }
     });
 
