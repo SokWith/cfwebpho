@@ -60,7 +60,7 @@ const hostUrl = 'https://imghost.wook.eu.org';
 const uploadEndpoint = '/upload';
 // 在文档加载完成后添加事件监听器
 document.addEventListener('DOMContentLoaded', function() {
-    const submitButton = document.getElementById('submitPhoto');
+    const submitButton = document.getElementById('selPhoto');
     const urlTextArea = document.getElementById('photoUrl');
     const realFileInput = document.createElement('input');
     realFileInput.type = 'file';
