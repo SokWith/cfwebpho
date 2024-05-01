@@ -75,49 +75,63 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
 }
 
 }
-
-function setupFileInputAndUpload(uploadEndpoint, hostUrl) {
+// 在文档加载完成后添加事件监听器
+document.addEventListener('DOMContentLoaded', function() {
     const submitButton = document.getElementById('submitPhoto');
-    const photoUrlInput = document.getElementById('photoUrl');
+    const urlTextArea = document.getElementById('photoUrl');
     const realFileInput = document.createElement('input');
     realFileInput.type = 'file';
     realFileInput.multiple = true;
     realFileInput.style.display = 'none';
-    document.body.appendChild(realFileInput); // 将文件输入元素添加到DOM中
 
+    // 将文件输入元素添加到DOM中，但不显示
+    document.body.appendChild(realFileInput);
+
+    // 当点击“批量添加图片”按钮时触发文件输入元素的点击事件
     submitButton.addEventListener('click', function(event) {
-        if (!photoUrlInput.value) {
-            event.preventDefault(); // 阻止表单提交
-            realFileInput.click(); // 打开文件选择对话框
-        } else {
-            // 这里可以添加提交表单的逻辑
+        if (urlTextArea.value.trim() === '') {
+            event.preventDefault();
+            realFileInput.click();
         }
     });
 
-    realFileInput.addEventListener('change', function(event) {
-    const files = event.target.files;
-    const uploadPromises = Array.from(files).map(file => {
-        return uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file);
-    });
-
-    Promise.all(uploadPromises)
-        .then(responses => {
-            const fullUrls = responses.map(data => {
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-                return `${hostUrl}${data[0].src}`; // 使用 data[0].src 获取第一个图片的URL
-            });
-            photoUrlInput.value = fullUrls.join('\n');
-            // 这里可以添加提交表单的逻辑
-        })
-        .catch(error => {
-            console.error('上传失败:', error);
+    // 处理文件选择
+    realFileInput.addEventListener('change', function() {
+        const uploadPromises = Array.from(realFileInput.files).map(file => {
+            // 调用函数上传图片并获取URL
+            return uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应不是OK状态');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                   // console.log(data);
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+                    // 创建一个变量来存储完整的图片URL
+                    const imageUrl = `${hostUrl}${data[0].src}`;
+                    // 在控制台输出完整的图片URL
+                    console.log(imageUrl);
+                    // 返回完整的图片URL
+                    return imageUrl;
+                });
         });
-});
 
-}
+        Promise.all(uploadPromises)
+            .then(fullUrls => {
+                // 将获取到的URLs添加到文本区域
+                urlTextArea.value = fullUrls.join('\n');
 
-document.addEventListener('DOMContentLoaded', function() {
-    setupFileInputAndUpload('/upload', 'https://imghost.wook.eu.org');
+                // 使用新的URLs重新提交表单
+                //form.submit();
+              // 模拟点击“add”按钮
+                submitButton.click();
+            })
+            .catch(error => {
+                console.error('上传失败:', error);
+            });
+    });
 });
