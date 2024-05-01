@@ -8,8 +8,8 @@
 <body>
     <h1>相册管理</h1>
     <div id="photoWall"></div>
-    <input type="text" id="photoInfo" placeholder="图片URL地址,图片名称">
-    <button onclick="submitPhotos()">批量提交图片</button>
+    <input type="text" id="photoUrl" placeholder="输入图片URL地址">
+    <button onclick="submitPhoto()">提交图片</button>
     <script>
         const params = new URLSearchParams(window.location.search);
         const username = params.get('username');
@@ -17,32 +17,28 @@
 
         async function getPhotos() {
             const response = await fetch(`./get-photos?username=${username}&directory=${directory}`);
-            const photos = await response.json();
+            const photoUrls = await response.json();
             const photoWall = document.getElementById('photoWall');
-            photos.forEach(photo => {
+            photoUrls.forEach(url => {
                 let img = document.createElement('img');
-                img.src = photo.url;
-                img.alt = photo.name;
+                img.src = url;
                 img.style.width = '100px'; // 设置图片大小
                 img.style.margin = '5px';
-                let caption = document.createElement('p');
-                caption.textContent = photo.name;
                 photoWall.appendChild(img);
-                photoWall.appendChild(caption);
             });
         }
 
-        async function submitPhotos() {
-            const photoData = document.getElementById('photoInfo').value;
+        async function submitPhoto() {
+            const photoUrl = document.getElementById('photoUrl').value;
             const response = await fetch('./submit-photos', {
                 method: 'POST',
-                body: JSON.stringify({ username, directory, photoData }),
+                body: JSON.stringify({ username, directory, photoUrl }),
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
                 window.location.reload();
             } else {
-                console.error('Failed to submit photos');
+                console.error('Failed to submit photo');
             }
         }
 
