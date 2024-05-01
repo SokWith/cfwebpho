@@ -43,7 +43,7 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file, callback) {
             if (data.error) {
                 throw new Error(data.error);
             }
-            callback(`${hostUrl}${data.path}`);
+            callback(`${hostUrl}${data[0].src}`);
         })
         .catch(error => {
             console.error('上传失败:', error);
