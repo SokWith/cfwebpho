@@ -137,7 +137,7 @@
             modal.style.display = "none";
         }
 
-        async function submitPhoto() {
+        async function AsubmitPhoto() {
             const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
             const validPhotoUrls = photoUrls.filter(url => url.trim() !== '');
             const photoUrlsString = validPhotoUrls.join('\n');
