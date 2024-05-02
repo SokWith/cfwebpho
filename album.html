@@ -14,16 +14,21 @@
         h1 {
             margin: 20px 0;
         }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
+        .directory-item {
             margin: 10px;
             cursor: pointer;
-            /* 添加相册图标 */
-            background: url('album-icon.jpg') no-repeat left center;
-            padding-left: 40px; /* 调整填充以适应图标大小 */
+            position: relative;
+            display: inline-block;
+            width: 100px; /* 图标的宽度 */
+            height: 100px; /* 图标的高度 */
+            background: url('album-icon.png') no-repeat center center;
+            color: white; /* 目录名的文字颜色 */
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden; /* 确保文本不会溢出图标区域 */
         }
         #newDirectory {
             margin: 10px;
@@ -46,7 +51,7 @@
 </head>
 <body>
     <h1 id="welcomeMessage"></h1>
-    <ul id="directoryList"></ul>
+    <div id="directoryList"></div>
     <textarea id="newDirectory" placeholder="输入目录名" cols="60" rows="1"></textarea>
     <button onclick="createDirectory()">创建目录</button>
 
@@ -66,11 +71,11 @@
             const directoryList = document.getElementById('directoryList');
             directoryList.innerHTML = ''; // 清空列表
             directories.forEach(dir => {
-                let li = document.createElement('li');
-                li.textContent = dir;
-                li.style.cursor = 'pointer';
-                li.onclick = () => window.location.href = `./album-management.html?username=${username}&directory=${dir}`;
-                directoryList.appendChild(li);
+                let div = document.createElement('div');
+                div.classList.add('directory-item');
+                div.textContent = dir;
+                div.onclick = () => window.location.href = `./album-management.html?username=${username}&directory=${dir}`;
+                directoryList.appendChild(div);
             });
         }
 
