@@ -26,17 +26,20 @@
             display: flex;
             align-items: center;
             width: calc(33.333% - 20px); /* 每行三个目录 */
+            background-color: #007bff; /* 蓝色背景 */
+            border-radius: 5px; /* 调整圆角大小 */
+            padding: 5px; /* 添加内边距 */
         }
         .directory-icon {
             background: url('album-icon.png') no-repeat center center;
             width: 100px; /* 图标的宽度 */
             height: 100px; /* 图标的高度 */
             margin-right: 10px;
-            border-radius: 50%; /* 设置圆形图标 */
+            border-radius: 5px; /* 调整图标的圆角大小 */
         }
         .directory-name {
             font-size: 16px; /* 字体大小 */
-            color: #007bff; /* 字体颜色 */
+            color: white; /* 字体颜色，设置为白色以便在蓝色背景上清晰可见 */
             font-weight: bold;
         }
         #newDirectory {
@@ -63,6 +66,7 @@
     <div id="directoryList"></div>
     <textarea id="newDirectory" placeholder="输入目录名" cols="60" rows="1"></textarea>
     <button onclick="createDirectory()">创建目录</button>
+
 
     <script>
         const username = new URLSearchParams(window.location.search).get('username');
