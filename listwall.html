@@ -77,7 +77,7 @@
     let str ='';
     for (let i = 0; i < imgList.length; i++){
       if(imgList[i].name.indexOf(".mp4")>0)continue;
-      str += '<img onclick="showBigImg(this)" data-original='+"/file/"+imgList[i].name+' src='+"/file/"+imgList[i].name +'>';
+      str += '<img onclick="showBigImg(this)" data-original='+ imgList[i] +' src='+ imgList[i] +'>';
     }
     targetElement.innerHTML = str
 </script>
