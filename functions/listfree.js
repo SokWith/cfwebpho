@@ -6,12 +6,12 @@ export async function ListFree(context) {
 
  const KV_NAMESPACE = 'webphostore';
   // 获取KV空间中最近m个密钥的列表
-  const keysList = await env.KV_NAMESPACE.list({ limit: m });
+  const keysList = await context.env.KV_NAMESPACE.list({ limit: m });
   const keys = keysList.keys.map(key => key.name);
 
   let urls = [];
   for (const key of keys) {
-    const value = await env.KV_NAMESPACE.get(key);
+    const value = await context.env.KV_NAMESPACE.get(key);
     if (value) {
       // 假设每个密钥的值都是以换行符分隔的URL字符串
       urls.push(...value.split('\n'));
