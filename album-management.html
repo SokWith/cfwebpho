@@ -104,7 +104,7 @@
         const params = new URLSearchParams(window.location.search);
         const username = params.get('username');
         const directory = params.get('directory');
-        document.getElementById('albumTitle').textContent = `管理${directory}相册`;
+        document.getElementById('albumTitle').textContent = `${directory} 相册`;
 
         let photoUrls = [];
 
