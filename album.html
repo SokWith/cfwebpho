@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 添加了移动设备适配 -->
-    <title>相册</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>相册目录管理</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,22 +26,34 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            width: calc(30% - 20px); /* 每行三个目录 */
-            background-color: #007bff; /* 蓝色背景 */
-            border-radius: 5px; /* 调整圆角大小 */
-            padding: 5px; /* 添加内边距 */
+            width: calc(30% - 20px);
+            background-color: #007bff;
+            border-radius: 5px;
+            padding: 5px;
         }
         .directory-icon {
             background: url('album-icon.png') no-repeat center center;
-            width: 100px; /* 图标的宽度 */
-            height: 100px; /* 图标的高度 */
+            width: 100px;
+            height: 100px;
             margin-right: 10px;
-            border-radius: 5px; /* 调整图标的圆角大小 */
+            border-radius: 5px;
         }
         .directory-name {
-            font-size: 16px; /* 字体大小 */
-            color: white; /* 字体颜色，设置为白色以便在蓝色背景上清晰可见 */
+            font-size: 16px;
+            color: white;
             font-weight: bold;
+        }
+        .delete-btn {
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: darkred;
         }
         #newDirectory {
             margin: 10px;
@@ -60,13 +72,13 @@
         button:hover {
             background-color: #0056b3;
         }
-        @media (max-width: 768px) { /* 为移动设备添加了媒体查询 */
+        @media (max-width: 768px) {
             .directory-item {
-                width: 100%; /* 在小屏幕上全宽 */
-                margin: 5px 0; /* 更小的边距 */
+                width: 100%;
+                margin: 5px 0;
             }
             #newDirectory {
-                width: calc(100% - 20px); /* 适应小屏幕的宽度 */
+                width: calc(100% - 20px);
             }
         }
     </style>
@@ -77,28 +89,22 @@
     <textarea id="newDirectory" placeholder="输入目录名" cols="60" rows="1"></textarea>
     <button onclick="createDirectory()">创建目录</button>
 
-
-
-
     <script>
         const username = new URLSearchParams(window.location.search).get('username');
         document.getElementById('welcomeMessage').textContent = `欢迎来到${username}的相册`;
 
-        // 页面加载时获取目录列表
         window.onload = function() {
             getDirectories();
         };
 
-        // 获取目录列表
         async function getDirectories() {
             const response = await fetch(`./get-directories?username=${username}`);
             const directories = await response.json();
             const directoryList = document.getElementById('directoryList');
-            directoryList.innerHTML = ''; // 清空列表
+            directoryList.innerHTML = '';
             directories.forEach(dir => {
                 let div = document.createElement('div');
                 div.classList.add('directory-item');
-                div.style.width = 'calc(30% - 20px)'; // 每行显示3个目录
 
                 let icon = document.createElement('div');
                 icon.classList.add('directory-icon');
@@ -109,12 +115,17 @@
                 name.textContent = dir;
                 div.appendChild(name);
 
+                let deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-btn');
+                deleteButton.textContent = '删除';
+                deleteButton.onclick = function() { deleteDirectory(dir); };
+                div.appendChild(deleteButton);
+
                 div.onclick = () => window.location.href = `./album-management.html?username=${username}&directory=${dir}`;
                 directoryList.appendChild(div);
             });
         }
 
-        // 创建目录
         async function createDirectory() {
             const dirName = document.getElementById('newDirectory').value;
             const response = await fetch('./create-directory', {
@@ -123,9 +134,25 @@
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
-                getDirectories(); // 重新获取目录列表
+                getDirectories();
             } else {
                 console.error('Failed to create directory');
+            }
+        }
+
+        async function deleteDirectory(dirName) {
+            if (!confirm(`确定要删除目录 "${dirName}" 吗？`)) {
+                return;
+            }
+            const response = await fetch('./delete-directory', {
+                method: 'POST',
+                body: JSON.stringify({ username, dirName }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                getDirectories();
+            } else {
+                console.error('Failed to delete directory');
             }
         }
     </script>
