@@ -1,4 +1,4 @@
-export async function listfree(context) {
+export async function list-free(context) {
   const { env, request } = context;
   const url = new URL(request.url);
   const m = url.searchParams.get('m');
