@@ -6,8 +6,9 @@ export async function list-free(context) {
 
  //const KV_NAMESPACE = 'webphostore';
   // 获取KV空间中最近m个密钥的列表
-  const keysList = await context.env.webphostore.list({ limit: m });
-  const keys = keysList.keys.map(key => key.name);
+  //const keysList = await context.env.webphostore.list({ limit: m });
+ // const keys = keysList.keys.map(key => key.name);
+  const keys = {"sokwith","aaaaaa"};
   console.log(keys);
 
   let urls = [];
