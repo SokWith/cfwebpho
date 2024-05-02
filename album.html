@@ -32,6 +32,7 @@
             width: 100px; /* 图标的宽度 */
             height: 100px; /* 图标的高度 */
             margin-right: 10px;
+            border-radius: 50%; /* 设置圆形图标 */
         }
         .directory-name {
             font-size: 16px; /* 字体大小 */
@@ -63,7 +64,6 @@
     <textarea id="newDirectory" placeholder="输入目录名" cols="60" rows="1"></textarea>
     <button onclick="createDirectory()">创建目录</button>
 
-
     <script>
         const username = new URLSearchParams(window.location.search).get('username');
         document.getElementById('welcomeMessage').textContent = `欢迎来到${username}的相册`;
@@ -82,7 +82,17 @@
             directories.forEach(dir => {
                 let div = document.createElement('div');
                 div.classList.add('directory-item');
-                div.textContent = dir;
+                div.style.width = 'calc(33.333% - 20px)'; // 每行显示3个目录
+
+                let icon = document.createElement('div');
+                icon.classList.add('directory-icon');
+                div.appendChild(icon);
+
+                let name = document.createElement('div');
+                name.classList.add('directory-name');
+                name.textContent = dir;
+                div.appendChild(name);
+
                 div.onclick = () => window.location.href = `./album-management.html?username=${username}&directory=${dir}`;
                 directoryList.appendChild(div);
             });
