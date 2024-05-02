@@ -8,6 +8,7 @@ export async function listfree(context) {
   // 获取KV空间中最近m个密钥的列表
   const keysList = await context.env.webphostore.list({ limit: m });
   const keys = keysList.keys.map(key => key.name);
+  console.log(keys);
 
   let urls = [];
   for (const key of keys) {
