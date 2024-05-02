@@ -60,7 +60,8 @@ const hostUrl = 'https://imghost.wook.eu.org';
 const uploadEndpoint = '/upload';
 // 在文档加载完成后添加事件监听器
 document.addEventListener('DOMContentLoaded', function() {
-    const submitButton = document.getElementById('selPhoto');
+    const submitButton = document.getElementById('submitPhoto');
+    const selButton = document.getElementById('selPhoto');
     const urlTextArea = document.getElementById('photoUrl');
     const realFileInput = document.createElement('input');
     realFileInput.type = 'file';
@@ -72,10 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 当点击“批量添加图片”按钮时触发文件输入元素的点击事件
     submitButton.addEventListener('click', function(event) {
-      //  if (urlTextArea.value.trim() === '') {
-        //    event.preventDefault();
+        if (urlTextArea.value.trim() === '') {
+            event.preventDefault();
             realFileInput.click();
-      //  }
+        }else{
+        AsubmitPhoto();
     });
 
     // 处理文件选择
