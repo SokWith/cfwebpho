@@ -64,22 +64,20 @@
     <div id="bigimg" onclick="closeBigImg();"></div>
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
-  var imgList
-  $.ajax({
-    url: "./list-free?m=10&n=9",
-    async: true,
-    dataType: "json",
-    success: function(data) {
-      imgList = data; // 将请求的数据赋值给全局变量
-    }
-});
-  var targetElement = document.querySelector('.box');
-    let str ='';
-    for (let i = 0; i < imgList.length; i++){
-      if(imgList[i].indexOf(".mp4")>0)continue;
-      str += '<img onclick="showBigImg(this)" data-original='+imgList[i] +' src='+imgList[i] +'>';
-    }
-    targetElement.innerHTML = str
+    $.ajax({
+      url: "./list-free?m=10&n=9",
+      dataType: "json",
+      success: function(data) {
+        var imgList = data; // 将请求的数据赋值给局部变量
+        var targetElement = document.querySelector('.box');
+        let str = '';
+        for (let i = 0; i < imgList.length; i++) {
+          str += '<img onclick="showBigImg(this)" data-original="' + imgList[i] + '" src="' + imgList[i] + '">';
+        }
+        targetElement.innerHTML = str;
+        waterfallHandler(); // 调用瀑布流处理函数
+	 }
+    });
 </script>
 </body>
 <script>
