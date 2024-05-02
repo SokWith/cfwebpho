@@ -66,6 +66,13 @@
             <input type="submit" value="进入相册">
         </form>
     </div>
+     <script>
+        document.getElementById('welcomeForm').onsubmit = function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            window.location.href = `/album.html?username=${username}`;
+        };
+     </script>
    <!-- 在这里嵌入iframe -->
     <iframe src="https://webpho.pages.dev/listwall.html" style="width:80%; height:100vh; border:none;"></iframe>
     </body>
