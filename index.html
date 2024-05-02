@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 添加了移动设备适配 -->
     <title>欢迎页面</title>
     <style>
         body {
@@ -28,11 +29,11 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            width: 400px;
+            width: 80%; /* 改为百分比以提高响应性 */
+            max-width: 400px; /* 在大屏幕上保持大小 */
             box-sizing: border-box;
             font-size: 16px;
-            height: 40px; /* Increased height for better visibility */
-            placeholder: "给自己取一个酷酷的名字吧,6个以上英文字符"; /* Corrected placeholder attribute */
+            height: 40px;
         }
         input[type="submit"] {
             padding: 10px 20px;
@@ -45,6 +46,14 @@
         }
         input[type="submit"]:hover {
             background-color: #0056b3;
+        }
+        @media (max-width: 768px) { /* 为移动设备添加了媒体查询 */
+            body {
+                padding: 10px; /* 为小屏幕添加了内边距 */
+            }
+            input[type="text"] {
+                width: 100%; /* 在小屏幕上全宽 */
+            }
         }
     </style>
 </head>
