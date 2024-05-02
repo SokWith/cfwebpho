@@ -1,10 +1,17 @@
-<!-- album-management.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 添加了移动设备适配 -->
     <title>管理相册</title>
     <style>
+        /* 全局样式 */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
         /* 模态窗口（lightbox）样式 */
         .modal {
             display: none;
@@ -19,14 +26,12 @@
             background-color: rgb(0,0,0);
             background-color: rgba(0,0,0,0.9);
         }
-
         .modal-content {
             margin: auto;
             display: block;
             width: 80%;
             max-width: 700px;
         }
-
         .close {
             position: absolute;
             top: 15px;
@@ -36,21 +41,18 @@
             font-weight: bold;
             transition: 0.3s;
         }
-
         .close:hover,
         .close:focus {
             color: #bbb;
             text-decoration: none;
             cursor: pointer;
         }
-
         /* 图片和删除按钮的容器样式 */
         .img-container {
             display: inline-block;
             position: relative;
             margin: 5px;
         }
-
         .delete-btn {
             position: absolute;
             top: 0;
@@ -59,6 +61,19 @@
             color: white;
             border: none;
             cursor: pointer;
+        }
+        @media (max-width: 768px) { /* 为移动设备添加了媒体查询 */
+            .modal-content {
+                width: 90%; /* 在小屏幕上全宽 */
+            }
+            .img-container img {
+                width: 100%; /* 图片在容器内全宽 */
+                max-width: 150px; /* 限制图片的最大宽度 */
+            }
+            .img-container {
+                width: calc(50% - 10px); /* 在小屏幕上每行显示两个图片容器 */
+                margin: 5px; /* 较小的外边距 */
+            }
         }
     </style>
 </head>
@@ -73,6 +88,8 @@
         <span class="close">×</span>
         <img class="modal-content" id="img01">
     </div>
+
+
 
     <script>
         const params = new URLSearchParams(window.location.search);
