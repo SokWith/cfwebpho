@@ -1,5 +1,5 @@
 //functions/list-free.js
-export async function list-free(context) {
+export async function onRequestGet(context) {
   const { env, request } = context;
   const url = new URL(request.url);
   const m = url.searchParams.get('m');
@@ -7,9 +7,9 @@ export async function list-free(context) {
 
  //const KV_NAMESPACE = 'webphostore';
   // 获取KV空间中最近m个密钥的列表
-  //const keysList = await context.env.webphostore.list({ limit: m });
- // const keys = keysList.keys.map(key => key.name);
-  const keys = {"sokwith","aaaaaa"};
+  const keysList = await context.env.webphostore.list({ limit: m });
+  const keys = keysList.keys.map(key => key.name);
+  //const keys = {"sokwith","aaaaaa"};
   console.log(keys);
 
   let urls = [];
@@ -27,8 +27,8 @@ export async function list-free(context) {
   // 随机抽取n个URL
   const selectedUrls = urls.sort(() => Math.random() - 0.5).slice(0, maxUrls);
 
-//  return new Response(JSON.stringify(selectedUrls), {
-  return new Response(JSON.stringify(keys), {
+  return new Response(JSON.stringify(selectedUrls), {
+ // return new Response(JSON.stringify(keys), {
     headers: { 'Content-Type': 'application/json' },
     status: 200
   });
