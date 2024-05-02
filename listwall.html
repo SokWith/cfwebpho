@@ -67,7 +67,7 @@
   var imgList
   $.ajax({
     url: "./list-free?m=10&n=9",
-    async: false,
+    async: true,
     dataType: "json",
     success: function(data) {
       imgList = data; // 将请求的数据赋值给全局变量
