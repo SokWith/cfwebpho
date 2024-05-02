@@ -1,3 +1,4 @@
+//functions/list-free.js
 export async function list-free(context) {
   const { env, request } = context;
   const url = new URL(request.url);
