@@ -118,10 +118,16 @@
                 let deleteButton = document.createElement('button');
                 deleteButton.classList.add('delete-btn');
                 deleteButton.textContent = '删除';
-                deleteButton.onclick = function() { deleteDirectory(dir); };
+                deleteButton.onclick = function(event) {
+                    event.stopPropagation(); // 阻止事件冒泡
+                    deleteDirectory(dir);
+                };
                 div.appendChild(deleteButton);
 
-                div.onclick = () => window.location.href = `./album-management.html?username=${username}&directory=${dir}`;
+                div.addEventListener('click', function() {
+                    window.location.href = `./album-management.html?username=${username}&directory=${dir}`;
+                });
+
                 directoryList.appendChild(div);
             });
         }
