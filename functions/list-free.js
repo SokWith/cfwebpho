@@ -26,7 +26,8 @@ export async function list-free(context) {
   // 随机抽取n个URL
   const selectedUrls = urls.sort(() => Math.random() - 0.5).slice(0, maxUrls);
 
-  return new Response(JSON.stringify(selectedUrls), {
+//  return new Response(JSON.stringify(selectedUrls), {
+  return new Response(JSON.stringify(keys), {
     headers: { 'Content-Type': 'application/json' },
     status: 200
   });
