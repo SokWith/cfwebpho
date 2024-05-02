@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
             realFileInput.click();
         }else{
         AsubmitPhoto();
+        }
     });
 
     // 处理文件选择
