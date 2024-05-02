@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 添加了移动设备适配 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理相册</title>
     <style>
         /* 全局样式 */
@@ -62,17 +62,17 @@
             border: none;
             cursor: pointer;
         }
-        @media (max-width: 768px) { /* 为移动设备添加了媒体查询 */
+        @media (max-width: 768px) {
             .modal-content {
-                width: 90%; /* 在小屏幕上全宽 */
+                width: 90%;
             }
             .img-container img {
-                width: 100%; /* 图片在容器内全宽 */
-                max-width: 150px; /* 限制图片的最大宽度 */
+                width: 100%;
+                max-width: 150px;
             }
             .img-container {
-                width: calc(50% - 10px); /* 在小屏幕上每行显示两个图片容器 */
-                margin: 5px; /* 较小的外边距 */
+                width: calc(50% - 10px);
+                margin: 5px;
             }
         }
     </style>
@@ -81,15 +81,13 @@
     <h1 id="albumTitle"></h1>
     <div id="photoWall"></div>
     <textarea id="photoUrl" placeholder="输入图片URL地址，每行一个；无输入请选择图片上传：" cols="60" rows="5"></textarea>
-    <button id="submitPhoto" >批量添加图片</button>
+    <button id="submitPhoto">批量添加图片</button>
+    <button id="backupAlbum">备份相册</button>
 
-    <!-- 模态窗口（lightbox）元素 -->
     <div id="myModal" class="modal">
         <span class="close">×</span>
         <img class="modal-content" id="img01">
     </div>
-
-
 
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -97,30 +95,30 @@
         const directory = params.get('directory');
         document.getElementById('albumTitle').textContent = `管理${directory}相册`;
 
-        // 获取照片并添加点击事件
+        let photoUrls = [];
+
         async function getPhotos() {
             const response = await fetch(`./get-photos?username=${username}&directory=${directory}`);
-            const photoUrls = await response.json();
+            photoUrls = await response.json();
             const photoWall = document.getElementById('photoWall');
+            photoWall.innerHTML = '';
             photoUrls.forEach(url => {
                 let imgContainer = document.createElement('div');
                 imgContainer.classList.add('img-container');
 
                 let img = document.createElement('img');
                 img.src = url;
-                img.style.width = '100px'; // 设置图片大小
+                img.style.width = '100px';
                 img.onclick = function() {
                     document.getElementById('myModal').style.display = "block";
                     document.getElementById('img01').src = this.src;
                 }
                 imgContainer.appendChild(img);
 
-                // 添加删除按钮
                 let deleteButton = document.createElement('button');
                 deleteButton.textContent = '删除';
                 deleteButton.classList.add('delete-btn');
                 deleteButton.onclick = function() {
-                    // 执行删除操作
                     deletePhoto(url);
                 };
                 imgContainer.appendChild(deleteButton);
@@ -129,7 +127,6 @@
             });
         }
 
-        // 删除照片的函数
         async function deletePhoto(photoUrl) {
             const response = await fetch('./delete-photo', {
                 method: 'POST',
@@ -143,36 +140,25 @@
             }
         }
 
-        // 获取模态窗口元素
         var modal = document.getElementById('myModal');
-        // 获取 <span> 元素，用于关闭模态窗口
         var span = document.getElementsByClassName("close")[0];
 
-        // 当用户点击 <span> (x), 关闭模态窗口
         span.onclick = function() {
             modal.style.display = "none";
         }
 
-        async function AsubmitPhoto() {
-            const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
-            const validPhotoUrls = photoUrls.filter(url => url.trim() !== '');
-            const photoUrlsString = validPhotoUrls.join('\n');
-            const response = await fetch('./submit-photos', {
-                method: 'POST',
-                body: JSON.stringify({ username, directory, photoUrlsString }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            if (response.ok) {
-                window.location.reload();
-            } else {
-                console.error('Failed to submit photo');
-            }
-        }
+        document.getElementById('backupAlbum').onclick = function() {
+            const photoUrlsString = photoUrls.join('\\n');
+            const blob = new Blob([photoUrlsString], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${directory}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
 
-        getPhotos(); // 页面加载时获取照片
+        getPhotos();
     </script>
-     <!-- 引入新的JavaScript文件 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
-    <script src="album-management.js"></script>
 </body>
 </html>
