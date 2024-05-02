@@ -12,6 +12,17 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
+        /* 备份按钮样式 */
+        #backupAlbum {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
         /* 模态窗口（lightbox）样式 */
         .modal {
             display: none;
@@ -78,11 +89,11 @@
     </style>
 </head>
 <body>
+    <button id="backupAlbum">备份相册</button>
     <h1 id="albumTitle"></h1>
     <div id="photoWall"></div>
     <textarea id="photoUrl" placeholder="输入图片URL地址，每行一个；无输入请选择图片上传：" cols="60" rows="5"></textarea>
     <button id="submitPhoto">批量添加图片</button>
-    <button id="backupAlbum">备份相册</button>
 
     <div id="myModal" class="modal">
         <span class="close">×</span>
@@ -119,7 +130,10 @@
                 deleteButton.textContent = '删除';
                 deleteButton.classList.add('delete-btn');
                 deleteButton.onclick = function() {
-                    deletePhoto(url);
+                    // 添加确认操作
+                    if (confirm('确定要删除这张图片吗？')) {
+                        deletePhoto(url);
+                    }
                 };
                 imgContainer.appendChild(deleteButton);
 
