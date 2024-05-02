@@ -180,16 +180,18 @@
                 console.error('Failed to submit photo');
             }
         }
+
         document.getElementById('backupAlbum').onclick = function() {
-            const photoUrlsString = photoUrls.join('\\n');
-            const blob = new Blob([photoUrlsString], { type: 'text/plain' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `${directory}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        };
+    // 使用Array.join方法连接数组元素，并确保不会有多余的回车符
+    const photoUrlsString = photoUrls.join('\n').replace(/(^\s*\n)|(\n\s*$)/g, '');
+    const blob = new Blob([photoUrlsString], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${directory}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+};
 
         getPhotos();
     </script>
