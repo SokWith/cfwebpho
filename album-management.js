@@ -19,7 +19,7 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
     loadingElement.style.padding = '10px';
     loadingElement.style.borderRadius = '5px';
     loadingElement.style.zIndex = '1000';
-    //loadingElement.style.animation = 'blink 1s linear infinite';
+    loadingElement.style.animation = 'blink 1s linear infinite';
 
     // 图片压缩功能
   function handleCompressFile(file) {
