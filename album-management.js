@@ -1,4 +1,15 @@
-// album-management.js
+// 在文档的<head>中添加样式
+const style = document.createElement('style');
+style.type = 'text/css';
+style.innerHTML = `
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+`;
+document.head.appendChild(style);
+
 // JavaScript函数，用于上传单个图片并返回完整的URL地址
 function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
     const formData = new FormData();
@@ -22,27 +33,26 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
     loadingElement.style.animation = 'blink 1s linear infinite';
 
     // 图片压缩功能
-  function handleCompressFile(file) {
-  const maxFileSize = 5 * 1024 * 1024; // 5MB
-  return new Promise((resolve) => {
-    if (file.size <= maxFileSize || !file.type.startsWith("image")) {
-      resolve(file);
-    } else {
-      imageCompression(file, { maxSizeMB: 5 })
-        .then((compressedFile) => {
-          resolve(compressedFile);
-        })
-        .catch((error) => {
-          console.error(">> imageCompression error", error);
-          resolve(file);
+    function handleCompressFile(file) {
+        const maxFileSize = 5 * 1024 * 1024; // 5MB
+        return new Promise((resolve) => {
+            if (file.size <= maxFileSize || !file.type.startsWith("image")) {
+                resolve(file);
+            } else {
+                imageCompression(file, { maxSizeMB: 5 })
+                    .then((compressedFile) => {
+                        resolve(compressedFile);
+                    })
+                    .catch((error) => {
+                        console.error(">> imageCompression error", error);
+                        resolve(file);
+                    });
+            }
         });
     }
-  });
-}
-
 
     // 压缩图片并上传
-  const uphostUrl = 'https://testupimg.wook.eu.org';
+    const uphostUrl = 'https://testupimg.wook.eu.org';
     return handleCompressFile(file).then(compressedFile => {
         formData.append("file", compressedFile);
         return fetch(`${uphostUrl}${uploadEndpoint}`, {
@@ -58,6 +68,7 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
 // 定义host URL和上传端点
 const hostUrl = 'https://imghost.wook.eu.org';
 const uploadEndpoint = '/upload';
+
 // 在文档加载完成后添加事件监听器
 document.addEventListener('DOMContentLoaded', function() {
     const submitButton = document.getElementById('submitPhoto');
@@ -75,8 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (urlTextArea.value.trim() === '') {
             event.preventDefault();
             realFileInput.click();
-        }else{
-        AsubmitPhoto();
+        } else {
+            AsubmitPhoto();
         }
     });
 
@@ -92,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     return response.json();
                 })
                 .then(data => {
-                   // console.log(data);
                     if (data.error) {
                         throw new Error(data.error);
                     }
@@ -112,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // 使用新的URLs重新提交表单
                 //form.submit();
-              // 模拟点击“add”按钮
+                // 模拟点击“add”按钮
                 submitButton.click();
             })
             .catch(error => {
