@@ -1,8 +1,8 @@
 export async function listfree(context) {
   const { env, request } = context;
   const url = new URL(request.url);
-  const m = url.searchParams.get('m');
-  const n = url.searchParams.get('n');
+  const m = url.searchParams.get('listm');
+  const n = url.searchParams.get('listn');
 
  //const KV_NAMESPACE = 'webphostore';
   // 获取KV空间中最近m个密钥的列表
