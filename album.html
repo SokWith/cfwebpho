@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 添加了移动设备适配 -->
     <title>相册</title>
     <style>
         body {
@@ -59,6 +60,15 @@
         button:hover {
             background-color: #0056b3;
         }
+        @media (max-width: 768px) { /* 为移动设备添加了媒体查询 */
+            .directory-item {
+                width: 100%; /* 在小屏幕上全宽 */
+                margin: 5px 0; /* 更小的边距 */
+            }
+            #newDirectory {
+                width: calc(100% - 20px); /* 适应小屏幕的宽度 */
+            }
+        }
     </style>
 </head>
 <body>
@@ -66,6 +76,8 @@
     <div id="directoryList"></div>
     <textarea id="newDirectory" placeholder="输入目录名" cols="60" rows="1"></textarea>
     <button onclick="createDirectory()">创建目录</button>
+
+
 
 
     <script>
