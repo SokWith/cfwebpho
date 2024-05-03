@@ -1,10 +1,13 @@
 export async function onRequest(context) {
   // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
-  const url = new URL(context.request.url);
-  const directory = url.searchParams.get('directory');
-  let username = url.searchParams.get('username') + '_' + directory;
-  const imgUrl = url.searchParams.get('imgURL') || '';
+  const { username, dirName, imgurl } = await request.json();
+  //const url = new URL(context.request.url);
+  //const directory = url.searchParams.get('directory');
+  //let username = url.searchParams.get('username') + '_' + directory;
+  //const imgUrl = url.searchParams.get('imgURL') || '';
+  const dirfull = username + '_' + dirName;
+  const imgUrl = imgurl || '';
   
   
 
@@ -18,7 +21,7 @@ export async function onRequest(context) {
 
   // 执行插入并等待结果
   try {
-    const ps = await database.prepare(query).bind(username, imgUrl);
+    const ps = await database.prepare(query).bind(dirfull, imgUrl);
     await ps.run();
     return new Response('Data inserted successfully.', { status: 200 });
   } catch (error) {
