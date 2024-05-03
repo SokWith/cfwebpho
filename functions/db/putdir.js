@@ -19,8 +19,8 @@ export async function onRequest(context) {
   // 执行查询并等待结果
   let result;
   try {
-    const ps = await database.prepare(fquery);
-    await ps.bind(fullname);
+    const ps = await database.prepare(fquery).bind(fullname);
+    //await ps.bind(fullname);
     result = await ps.all();
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
@@ -36,8 +36,8 @@ export async function onRequest(context) {
 
     // 执行插入并等待结果
     try {
-      const ps = await database.prepare(query);
-      await ps.bind(fullname, imgUrl).run();
+      const ps = await database.prepare(query).bind(fullname, imgUrl);
+      await ps.run();
       return new Response('Data inserted successfully.', { status: 200 });
     } catch (error) {
       // 如果插入过程中出现错误，返回错误信息
