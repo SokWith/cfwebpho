@@ -1,4 +1,4 @@
-/db/getdir.js
+// /db/getdir.js
 export async function onRequest(context) {
   // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
