@@ -22,7 +22,7 @@ export async function onRequest(context) {
     // 将字符串按换行符分割成数组，每个元素是一个图片URL
   //const result = photosString[0] ? photosString[0].split('\n') : [];
    // return new Response(JSON.stringify(result), { status: 200 });
-    return new Response(result, { status: 200 });
+    return new Response(photosString, { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });
