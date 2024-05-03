@@ -12,8 +12,14 @@ export async function onRequest(context) {
 
   // 执行查询并等待结果
   try {
-    const result = await database.prepare(query).bind('aaaaaa_%');
-    return new Response(JSON.stringify(result), { status: 200 });
+    // 准备SQL查询语句
+    const stmt = database.prepare(query);
+    // 绑定参数并执行查询
+    const result = await stmt.bind('aaaaaa_%').execute();
+    // 获取查询结果
+    const rows = await result.toArray();
+
+    return new Response(JSON.stringify(rows), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });
