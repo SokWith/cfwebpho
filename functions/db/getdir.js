@@ -10,13 +10,15 @@ export async function onRequest(context) {
   // 构建SQL查询语句
   const query = 'SELECT ad_name FROM webphostore WHERE ad_name LIKE ?';
 
+  // 准备SQL查询语句
+  const stmt = database.prepare(query);
+
+  // 绑定参数
+  stmt.bind(['aaaaaa_%']);
+
   // 执行查询并等待结果
   try {
-    // 准备SQL查询语句
-    const stmt = database.prepare(query);
-    // 绑定参数并执行查询
-    const result = await stmt.bind('aaaaaa_%').execute();
-    // 获取查询结果
+    const result = await stmt.execute();
     const rows = await result.toArray();
 
     return new Response(JSON.stringify(rows), { status: 200 });
