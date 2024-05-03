@@ -4,7 +4,7 @@ export async function onRequest(context) {
   const url = new URL(context.request.url);
   const directory = url.searchParams.get('directory');
   let username = url.searchParams.get('username') + '_' + directory;
-  const imgURL = url.searchParams.get('imgURL') || '';
+  const imgUrl = url.searchParams.get('imgURL') || '';
   
   
 
