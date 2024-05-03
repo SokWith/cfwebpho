@@ -23,6 +23,8 @@ export async function onRequest(context) {
   
   //const photosString  = photosStringArray.first(); // 假设字符串在数组的第一个位置
       const photosStringtp = typeof photosString; 
+    console.log(photosString);
+
 
     // 将字符串按换行符分割成数组，每个元素是一个图片URL
  // const result = photosString ? photosString.split('\n') : [];
