@@ -1,4 +1,3 @@
-// /db/getdir.js
 export async function onRequest(context) {
   // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
@@ -9,12 +8,12 @@ export async function onRequest(context) {
   }
 
   // 构建SQL查询语句
-  const query = 'SELECT ad_name FROM webphostore WHERE ad_name LIKE 'aaaaaa_%'';
+  const query = 'SELECT imgURL FROM webphostore WHERE ad_name = ?';
 
   // 执行查询并等待结果
   try {
     const ps = await database.prepare(query);
-    const result = await ps.all();
+    const result = await ps.all('aaaaaa_bbb');
     return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
