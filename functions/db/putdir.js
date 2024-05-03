@@ -22,14 +22,14 @@ export async function onRequest(context) {
     const ps = await database.prepare(fquery).bind(fullname);
     //await ps.bind(fullname);
     result = await ps.all();
-    return new Response(JSON.stringify(result), { status: 200 });
+   // return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });
   }
 
   // 如果目录存在，返回确认信息
-  if (result.length > 0){
+  if (result.results && result.results.length > 0){
     return new Response('Dir is here!', { status: 200 });
   } else {
     // 构建SQL插入语句
