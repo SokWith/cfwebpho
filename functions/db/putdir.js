@@ -28,8 +28,9 @@ export async function onRequest(context) {
   try {
     const ps = await database.prepare(query).bind(fullname);
     const result = await ps.raw();
-    const formattedResult = result.map(row => row[0].split('_')[1]);
-    return new Response(JSON.stringify(formattedResult), { status: 200 });
+  }
+  if (result){
+    return new Response('Dir is here!', { status: 200 });
   }else {
   
  // 构建SQL插入语句
@@ -44,8 +45,5 @@ export async function onRequest(context) {
     // 如果插入过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });
   }
-  } catch (error) {
-    // 如果查询过程中出现错误，返回错误信息
-    return new Response(error.message, { status: 500 });
   }
 }
