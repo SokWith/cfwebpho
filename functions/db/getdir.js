@@ -9,7 +9,7 @@ export async function onRequest(context) {
   }
 
   // 构建SQL查询语句
-  const query = 'SELECT ad_name FROM webphostore WHERE ad_name LIKE 'aaaaaa_%'';
+  const query = 'SELECT ad_name FROM webphostore WHERE ad_name = "aaaaaa_cc"';
 
   // 执行查询并等待结果
   try {
