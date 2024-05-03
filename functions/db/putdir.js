@@ -22,7 +22,7 @@ export async function onRequest(context) {
   //  return new Response('Dir is here!', { status: 200 });
  // }
   // 构建SQL查询语句
-  const query = 'SELECT ad_name FROM webphostore WHERE ad_name = ?';
+  let query = 'SELECT ad_name FROM webphostore WHERE ad_name = ?';
 
   // 执行查询并等待结果
   try {
@@ -33,7 +33,7 @@ export async function onRequest(context) {
   }else {
   
  // 构建SQL插入语句
-  const query = 'INSERT INTO webphostore (ad_name, imgURL) VALUES (?, ?)';
+   query = 'INSERT INTO webphostore (ad_name, imgURL) VALUES (?, ?)';
 
   // 执行插入并等待结果
   try {
