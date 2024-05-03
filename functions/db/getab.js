@@ -9,7 +9,7 @@ export async function onRequest(context) {
   }
 
   // 构建SQL查询语句
-  const query = 'SELECT imgURL FROM webphostore WHERE ad_name = 'aaaaaa_bbb'';
+  const query = 'SELECT imgURL FROM webphostore WHERE ad_name = "aaaaaa_bbb"';
 
   // 执行查询并等待结果
   try {
