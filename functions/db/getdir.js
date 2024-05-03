@@ -6,7 +6,7 @@ export async function onRequestGet(context) {
   const username = url.searchParams.get('username');
 
   // 构建查询D1数据库的SQL语句，以匹配以username_开头的ad_name列的值
-  const query = `SELECT ad_name FROM webphostore WHERE username LIKE ?`;
+  const query = `SELECT ad_name FROM webphostore WHERE ad_name LIKE ?`;
 
   // 执行查询并获取结果
   const result = await webpho_db.query(query, [`${username}_%`]);
