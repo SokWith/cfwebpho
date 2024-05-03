@@ -8,11 +8,11 @@ export async function onRequest(context) {
   }
 
   // 构建SQL查询语句
-  const query = 'SELECT imgURL FROM webphostore WHERE ad_name = "aaaaaa_cc"';
+  const query = 'SELECT imgURL FROM webphostore WHERE ad_name = ?';
 
   // 执行查询并等待结果
   try {
-    const ps = await database.prepare(query);
+    const ps = await database.prepare(query).bind("aaaaaa_cc");
     const result = await ps.raw();
     return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
