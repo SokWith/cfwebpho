@@ -22,14 +22,14 @@ export async function onRequest(context) {
    // const photosStringArray = await ps.raw();
   
   //const photosString  = photosStringArray.first(); // 假设字符串在数组的第一个位置
-      const photosStringtp = typeof photosString; 
+  //    const photosStringtp = typeof photosString; 
     console.log(photosString);
 
 
     // 将字符串按换行符分割成数组，每个元素是一个图片URL
  // const result = photosString ? photosString.split('\n') : [];
   //  return new Response(JSON.stringify(result), { status: 200 });
-   return new Response( photosStringtp, { status: 200 });
+   return new Response( photosString, { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });
