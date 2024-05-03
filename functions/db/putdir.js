@@ -22,11 +22,11 @@ export async function onRequest(context) {
   //  return new Response('Dir is here!', { status: 200 });
  // }
   // 构建SQL查询语句
-  let query = 'SELECT ad_name FROM webphostore WHERE ad_name = ?';
+  const fquery = 'SELECT ad_name FROM webphostore WHERE ad_name = ?';
 
   // 执行查询并等待结果
   try {
-    const ps = await database.prepare(query).bind(fullname);
+    const ps = await database.prepare(fquery).bind(fullname);
     const result = await ps.raw();
   }
   if (result){
@@ -34,7 +34,7 @@ export async function onRequest(context) {
   }else {
   
  // 构建SQL插入语句
-   query = 'INSERT INTO webphostore (ad_name, imgURL) VALUES (?, ?)';
+  const query = 'INSERT INTO webphostore (ad_name, imgURL) VALUES (?, ?)';
 
   // 执行插入并等待结果
   try {
