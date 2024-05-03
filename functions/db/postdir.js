@@ -1,13 +1,13 @@
 export async function onRequest(context) {
   // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
-  const { username, dirName, imgurl } = await request.json();
+  const { username, dirName } = await request.json();
   //const url = new URL(context.request.url);
   //const directory = url.searchParams.get('directory');
   //let username = url.searchParams.get('username') + '_' + directory;
   //const imgUrl = url.searchParams.get('imgURL') || '';
   const dirfull = username + '_' + dirName;
-  const imgUrl = imgurl || '';
+  const imgUrl = '';
   
   
 
