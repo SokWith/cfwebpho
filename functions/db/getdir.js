@@ -2,7 +2,7 @@ export async function onRequest(context) {
   // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
   const url = new URL(context.request.url);
-  const username = url.searchParams.get('username') + '_%';
+  let username = url.searchParams.get('username') + '_%';
 
   // 检查数据库连接是否已定义
   if (!database) {
