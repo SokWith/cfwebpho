@@ -22,7 +22,7 @@ export async function onRequest(context) {
    // const photosStringArray = await ps.raw();
   
   //const photosString  = photosStringArray.first(); // 假设字符串在数组的第一个位置
-  //    const photosStringtp = typeof photosString; 
+      const photosStringtp = typeof photosString; 
     console.log(photosString);
 
 
