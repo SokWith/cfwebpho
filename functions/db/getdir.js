@@ -8,7 +8,7 @@ export async function onRequest(context) {
   }
 
   // 构建SQL查询语句
-  const query = 'SELECT imgURL FROM webphostore WHERE ad_name LIKE 'aaaaaa_%';
+  const query = 'SELECT imgURL FROM webphostore WHERE ad_name LIKE 'aaaaaa_%'';
 
   // 执行查询并等待结果
   try {
