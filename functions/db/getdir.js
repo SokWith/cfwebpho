@@ -18,7 +18,7 @@ export async function onRequest(context) {
     const ps = await database.prepare(query).bind(username);
     const result = await ps.raw();
    // const formattedResult = result.map(row => row[0].split('_')[1]);
-    return new Response(JSON.stringify(result), { status: 200 });
+    return new Response(JSON.stringify(username), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });
