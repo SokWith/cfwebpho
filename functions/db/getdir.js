@@ -6,10 +6,10 @@ export async function onRequestGet(context) {
   const username = url.searchParams.get('username');
 
   // 构建查询D1数据库的SQL语句，以匹配以username_开头的ad_name列的值
-  const query = `SELECT ad_name FROM webphostore WHERE ad_name LIKE ?`;
+  const query = `SELECT ad_name FROM webphostore WHERE ad_name LIKE `${username}_%``;
 
   // 执行查询并获取结果
-  const result = await context.env.webpho_db.prepare(query, [`${username}_%`]);
+  const result = await context.env.webpho_db.prepare(${query});
 
   // 提取目录名
   const directories = result.rows.map(row => row.ad_name);
