@@ -18,10 +18,10 @@ export async function onRequest(context) {
   // 执行查询并等待结果
   try {
     const ps = await database.prepare(query).bind(username);
-    const photosString = await ps.raw();
-   // const photosStringArray = await ps.raw();
+   // const photosString = await ps.raw();
+    const photosStringArray = await ps.raw();
   
-  //const photosString as string = photosStringArray.imgURL; // 假设字符串在数组的第一个位置
+  const photosString  = photosStringArray.first(); // 假设字符串在数组的第一个位置
    //   const photosStringtp = typeof photosString; 
 
     // 将字符串按换行符分割成数组，每个元素是一个图片URL
