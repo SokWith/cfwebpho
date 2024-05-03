@@ -2,7 +2,7 @@ export async function onRequest(context) {
   // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
   const url = new URL(context.request.url);
-  const username = url.searchParams.get('username');
+  const username = url.searchParams.get('username') + '_%';
 
   // 检查数据库连接是否已定义
   if (!database) {
@@ -14,7 +14,7 @@ export async function onRequest(context) {
 
   // 执行查询并等待结果
   try {
-    const ps = await database.prepare(query).bind(username + '_%');
+    const ps = await database.prepare(query).bind(username);
     const result = await ps.raw();
    // const formattedResult = result.map(row => row[0].split('_')[1]);
     return new Response(JSON.stringify(result), { status: 200 });
