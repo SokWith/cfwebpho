@@ -3,6 +3,7 @@ export async function onRequest(context) {
   const database = context.env.webpho_db;
   const url = new URL(context.request.url);
   let username = url.searchParams.get('username') + '_%';
+  console.log(username);
 
   // 检查数据库连接是否已定义
   if (!database) {
