@@ -1,7 +1,7 @@
-// functions/get-directories.js
+// functions/db/getdir.js
 export async function onRequestGet(context) {
   // 解构环境变量和请求对象
-  const { D1_DATABASE, request } = context;
+  const { webpho_db, request } = context;
   const url = new URL(request.url);
   const username = url.searchParams.get('username');
 
@@ -9,7 +9,7 @@ export async function onRequestGet(context) {
   const query = `SELECT ad_name FROM webphostore WHERE username LIKE ?`;
 
   // 执行查询并获取结果
-  const result = await D1_DATABASE.query(query, [`${username}_%`]);
+  const result = await webpho_db.query(query, [`${username}_%`]);
 
   // 提取目录名
   const directories = result.rows.map(row => row.ad_name);
