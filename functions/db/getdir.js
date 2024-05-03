@@ -9,7 +9,7 @@ export async function onRequestGet(context) {
   const query = `SELECT ad_name FROM webphostore WHERE ad_name LIKE ?`;
 
   // 执行查询并获取结果
-  const result = await webpho_db.query(query, [`${username}_%`]);
+  const result = await context.webpho_db.query(query, [`${username}_%`]);
 
   // 提取目录名
   const directories = result.rows.map(row => row.ad_name);
