@@ -8,12 +8,12 @@ export async function onRequest(context) {
   }
 
   // 构建SQL查询语句
-  const query = 'SELECT imgURL FROM webphostore WHERE ad_name = ?';
+  const query = 'SELECT imgURL FROM webphostore WHERE ad_name = "aaaaaa_cc"';
 
   // 执行查询并等待结果
   try {
     const ps = await database.prepare(query);
-    const result = await ps.all('aaaaaa_bbb');
+    const result = await ps.first();
     return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
