@@ -13,8 +13,13 @@ export async function onRequest(context) {
     return new Response('Database connection not found.', { status: 500 });
   }
 
-  //检测目录是否存在
-  const yesdir = await ftech('./db/getdir?username=username');
+    // 检测目录是否存在
+  const yesdir = await fetch(`./db/getdir?username=${username}`);
+  
+  // 如果yesdir响应正常，则返回 "Dir is here!"
+  if (yesdir.ok) {
+    return new Response('Dir is here!', { status: 200 });
+  }
   
  // 构建SQL插入语句
   const query = 'INSERT INTO webphostore (ad_name, imgURL) VALUES (?, ?)';
