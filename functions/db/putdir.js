@@ -13,6 +13,9 @@ export async function onRequest(context) {
     return new Response('Database connection not found.', { status: 500 });
   }
 
+  //检测目录是否存在
+  const yesdir = await ftech('./db/getdir?username=username');
+  
  // 构建SQL插入语句
   const query = 'INSERT INTO webphostore (ad_name, imgURL) VALUES (?, ?)';
 
