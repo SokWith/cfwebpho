@@ -12,7 +12,7 @@ export async function onRequest(context) {
 
   // 执行查询并等待结果
   try {
-    const result = await database.query(query, ['aaaaaa_%']);
+    const result = await database.prepare(query).bind('aaaaaa_%');
     return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
