@@ -18,7 +18,9 @@ export async function onRequest(context) {
   // 执行查询并等待结果
   try {
     const ps = await database.prepare(query).bind(username);
-    const result = await ps.raw();
+    const photosString = await ps.raw();
+    // 将字符串按换行符分割成数组，每个元素是一个图片URL
+  const result = photosString ? photosString.split('\n') : [];
     return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
