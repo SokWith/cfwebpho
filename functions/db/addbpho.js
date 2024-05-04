@@ -19,12 +19,12 @@ export async function onRequest(context) {
     const photosString  = photosStringArray[0][0]; // 假设字符串在数组的第一个位置
 
  // 将字符串按换行符分割成数组，每个元素是一个图片URL
-  let photoUrls = photosString ? photosString.split('\n') : [];
+ // let photoUrls = photosString ? photosString.split('\n') : [];
    // 移除指定的图片URL
  //  photoUrls = photoUrls.filter(url => url !== fphotoUrl);
-   let upphotoUrl = photoUrls.join('\n');
+ //  let upphotoUrl = photoUrls.join('\n');
 // 追加URL
-  upphotoUrl = upphotoUrl ? upphotoUrl + '\n' + fphotoUrl : fphotoUrls;
+  let upphotoUrl = photosString ? photosString + '\n' + fphotoUrl : fphotoUrl;
 
   // return new Response( upphotoUrl, { status: 200 });
  
