@@ -1,4 +1,4 @@
-// functions/get-photos.js
+// functions/db/deledbpho.js
 export async function onRequestGet(context) {
  // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
