@@ -4,7 +4,7 @@ export async function onRequestGet(context) {
   const database = context.env.webpho_db;
   const { username, dirName, photoUrl } = await context.request.json();
   const fullname = `${username}_${dirName}`;
-  const photoUrl = `${photoUrl}`;
+  const fphotoUrl = `${photoUrl}`;
   
   // 检查数据库连接是否已定义
   if (!database) {
@@ -21,7 +21,7 @@ export async function onRequestGet(context) {
  // 将字符串按换行符分割成数组，每个元素是一个图片URL
   let photoUrls = photosString ? photosString.split('\n') : [];
    // 移除指定的图片URL
-   photoUrls = photoUrls.filter(url => url !== photoUrl);
+   photoUrls = photoUrls.filter(url => url !== fphotoUrl);
    const upphotoUrl = photoUrls.join('\n');
 
    // 构建SQL更新语句
