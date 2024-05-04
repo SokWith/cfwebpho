@@ -28,7 +28,7 @@ export async function onRequestGet(context) {
 const upquery = 'UPDATE webphostore SET imgURL = ? WHERE ad_name = ?';
  // 执行删除并等待结果
     try {
-      const upps = await database.prepare(dquery).bind(photoUrls, fullname);
+      const upps = await database.prepare(upquery).bind(photoUrls, fullname);
       await upps.run();
       return new Response('Directory deleted successfully.', { status: 200 });
     } catch (error) {
