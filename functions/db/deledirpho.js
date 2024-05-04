@@ -12,12 +12,14 @@ export async function onRequestGet(context) {
   }
   // 构建SQL查询语句
   const query = 'SELECT imgURL FROM webphostore WHERE ad_name = ?';
+// 构建SQL更新语句
+const upquery = 'UPDATE webphostore SET imgURL = ? WHERE ad_name = ?';
 
   // 执行查询并等待结果
   try {
-    const ps = await database.prepare(query).bind(fullname);
+    const ps = await database.prepare(query).bind(photoUrl,fullname);
    // const photosString = await ps.raw();
-    const photosStringArray = await ps.raw();
+    const photosStringArray = await ps.run();
   
   const photosString  = photosStringArray[0][0]; // 假设字符串在数组的第一个位置
   //    const photosStringtp = typeof photosString; 
