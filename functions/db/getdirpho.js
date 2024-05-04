@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
 
   // 执行查询并等待结果
   try {
-    const ps = await database.prepare(query).bind(username);
+    const ps = await database.prepare(query).bind(fullname);
    // const photosString = await ps.raw();
     const photosStringArray = await ps.raw();
   
