@@ -142,7 +142,7 @@
         }
 
         async function deletePhoto(photoUrl) {
-            const response = await fetch('./delete-photo', {
+            const response = await fetch('./db/deledbpho', {
                 method: 'POST',
                 body: JSON.stringify({ username, directory, photoUrl }),
                 headers: { 'Content-Type': 'application/json' }
