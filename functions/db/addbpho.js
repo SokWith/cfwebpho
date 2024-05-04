@@ -2,9 +2,9 @@
 export async function onRequest(context) {
  // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
-  const { username, dirName, photoUrl } = await context.request.json();
+  const { username, dirName, photoUrlsString } = await context.request.json();
   const fullname = `${username}_${dirName}`;
-  const fphotoUrl = `${photoUrl}`;
+  const fphotoUrl = `${photoUrlsString}`;
   
   // 检查数据库连接是否已定义
   if (!database) {
