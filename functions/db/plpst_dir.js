@@ -8,7 +8,6 @@ export async function onRequest(context) {
 
  // return new Response(JSON.stringify(fullname), { status: 200 });
   
-
   // 检查数据库连接是否已定义
   if (!database) {
     return new Response('Database connection not found.', { status: 500 });
