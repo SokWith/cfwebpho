@@ -10,11 +10,6 @@ export async function onRequestGet(context) {
   if (!database) {
     return new Response('Database connection not found.', { status: 500 });
   }
-   // 检查数据库连接是否已定义
-  if (!database) {
-    return new Response('Database connection not found.', { status: 500 });
-  }
-
   // 构建SQL查询语句
   const query = 'SELECT imgURL FROM webphostore WHERE ad_name = ?';
 
