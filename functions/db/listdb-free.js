@@ -1,9 +1,8 @@
 //functions/db/listdb-free.js
-export async function onRequestGet(context) {
-  const { env, request } = context;
+export async function onRequest(context) {
   // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
-  const url = new URL(request.url);
+  const url = new URL(context.request.url);
   const m = url.searchParams.get('m');
   const n = url.searchParams.get('n');
 
