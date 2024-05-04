@@ -4,7 +4,7 @@ export async function onRequestGet(context) {
   const database = context.env.webpho_db;
   const { username, dirName,photoUrl } = await context.request.json();
   const fullname = `${username}_${dirName}`;
-  const photoUrl = '${photoUrl}';
+  let photoUrl = '${photoUrl}';
   
   // 检查数据库连接是否已定义
   if (!database) {
@@ -22,7 +22,7 @@ export async function onRequestGet(context) {
   let photoUrls = photosString ? photosString.split('\n') : [];
    // 移除指定的图片URL
    photoUrls = photoUrls.filter(url => url !== photoUrl);
-   photoUrls = photoUrls.join('\n');
+   photoUrl = photoUrls.join('\n');
 
    // 构建SQL更新语句
 const upquery = 'UPDATE webphostore SET imgURL = ? WHERE ad_name = ?';
