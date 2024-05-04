@@ -131,7 +131,8 @@
                 directoryList.appendChild(div);
             });
         }
-
+        
+//创建目录
         async function createDirectory() {
             const dirName = document.getElementById('newDirectory').value;
             const response = await fetch('./db/plpst_mulu', {
