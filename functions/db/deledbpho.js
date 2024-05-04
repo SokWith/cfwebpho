@@ -1,5 +1,5 @@
 // functions/db/deledbpho.js
-export async function onRequestGet(context) {
+export async function onRequest(context) {
  // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
   const { username, dirName, photoUrl } = await context.request.json();
