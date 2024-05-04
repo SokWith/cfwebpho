@@ -4,7 +4,7 @@ export async function onRequestGet(context) {
   const database = context.env.webpho_db;
   const { username, dirName,photoUrl } = await context.request.json();
   const fullname = `${username}_${dirName}`;
-  const photoUrl = '${photoUrl}';
+  const photoUrl = `${photoUrl}`;
   
   // 检查数据库连接是否已定义
   if (!database) {
