@@ -140,9 +140,10 @@
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
-                console.log(response);
+                alert('目录创建成功，请稍后刷新最新信息。');
                 getDirectories();
             } else {
+                alert('目录创建失败，请重试。');
                 console.error('Failed to create directory');
             }
         }
