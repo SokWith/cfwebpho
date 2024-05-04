@@ -12,7 +12,8 @@ export async function onRequest(context) {
   }
 
   // 构建SQL查询语句
-  const query = 'SELECT imgURL FROM webphostore ORDER BY update_timestamp DESC LIMIT ?';
+  //const query = 'SELECT imgURL FROM webphostore ORDER BY update_timestamp DESC LIMIT ?';
+  const query = 'SELECT imgURL FROM webphostore  LIMIT ?';
 
   // 执行查询并等待结果
   try {
