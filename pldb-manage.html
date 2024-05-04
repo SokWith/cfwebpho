@@ -178,7 +178,7 @@
             const photoUrlsString = validPhotoUrls.join('\n');
             const response = await fetch('./db/addbpho', {
                 method: 'POST',
-                body: JSON.stringify({ username, directory, photoUrlsString }),
+                body: JSON.stringify({ username, dirName, photoUrlsString }),
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
