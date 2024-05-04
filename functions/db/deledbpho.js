@@ -4,7 +4,7 @@ export async function onRequestGet(context) {
   const database = context.env.webpho_db;
   const { username, dirName,photoUrl } = await context.request.json();
   const fullname = `${username}_${dirName}`;
-  let photoUrl = '${photoUrl}';
+  const photoUrl = '${photoUrl}';
   
   // 检查数据库连接是否已定义
   if (!database) {
@@ -22,13 +22,13 @@ export async function onRequestGet(context) {
   let photoUrls = photosString ? photosString.split('\n') : [];
    // 移除指定的图片URL
    photoUrls = photoUrls.filter(url => url !== photoUrl);
-   photoUrl = photoUrls.join('\n');
+   const upphotoUrl = photoUrls.join('\n');
 
    // 构建SQL更新语句
 const upquery = 'UPDATE webphostore SET imgURL = ? WHERE ad_name = ?';
  // 执行删除并等待结果
     try {
-      const upps = await database.prepare(upquery).bind(photoUrls, fullname);
+      const upps = await database.prepare(upquery).bind(upphotoUrl, fullname);
       await upps.run();
       return new Response('Directory deleted successfully.', { status: 200 });
     } catch (error) {
