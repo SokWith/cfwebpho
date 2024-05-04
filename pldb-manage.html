@@ -196,7 +196,7 @@
     const blob = new Blob([photoUrlsString], { type: 'text/plain' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `${directory}.txt`;
+    a.download = `${dirName}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
