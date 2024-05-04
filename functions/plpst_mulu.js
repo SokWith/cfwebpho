@@ -7,4 +7,4 @@ export async function onRequest(context) {
  // const imgUrl = '';
 
   return new Response(JSON.stringify(fullname), { status: 200 });
- 
+}
