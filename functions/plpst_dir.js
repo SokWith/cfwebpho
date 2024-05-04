@@ -6,5 +6,5 @@ export async function onRequest(context) {
 //  const fullname = username + '_' + dirName;
  // const imgUrl = '';
 
-  return new Response(JSON.stringify(username,dirName), { status: 200 });
+  return new Response(JSON.stringify({username,dirName}), { status: 200 });
  
