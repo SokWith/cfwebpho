@@ -5,7 +5,8 @@ export async function onRequest(context) {
   const { username, dirName } = await request.json();
   const fullname = username + '_' + dirName;
   const imgUrl = '';
-  
+
+  return new Response(JSON.stringify(fullname), { status: 200 });
   
 
   // 检查数据库连接是否已定义
