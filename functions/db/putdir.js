@@ -30,7 +30,7 @@ export async function onRequest(context) {
 
   // 如果目录存在，返回确认信息
   if (result.results && result.results.length > 0){
-    return new Response('Dir is here!', { status: 200 });
+    return new Response('Dir is here!', { status: 209 });
   } else {
     // 构建SQL插入语句
     const query = 'INSERT INTO webphostore (ad_name, imgURL) VALUES (?, ?)';
