@@ -2,7 +2,7 @@
 export async function onRequestGet(context) {
  // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
-  const { username, dirName,photoUrl } = await context.request.json();
+  const { username, dirName, photoUrl } = await context.request.json();
   const fullname = `${username}_${dirName}`;
   const photoUrl = `${photoUrl}`;
   
@@ -14,7 +14,7 @@ export async function onRequestGet(context) {
   const query = 'SELECT imgURL FROM webphostore WHERE ad_name = ?';
 
   // 执行查询并等待结果
-    const ps = await database.prepare(query).bind(photoUrl,fullname);
+    const ps = await database.prepare(query).bind(fullname);
     const photosStringArray = await ps.raw();  
     const photosString  = photosStringArray[0][0]; // 假设字符串在数组的第一个位置
 
