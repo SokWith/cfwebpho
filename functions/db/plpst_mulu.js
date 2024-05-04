@@ -1,15 +1,10 @@
 export async function onRequest(context) {
   // 从环境变量中获取数据库连接
   const database = context.env.webpho_db;
- // const database = context.env.db_phostore;
   const { username, dirName } = await context.request.json();
   const fullname = `${username}_${dirName}`;
-
   const imgUrl = '';
-
-  //return new Response(JSON.stringify(fullname), { status: 200 });
   
-
   // 检查数据库连接是否已定义
   if (!database) {
     return new Response('Database connection not found.', { status: 500 });
@@ -23,9 +18,7 @@ export async function onRequest(context) {
   let result;
   try {
     const ps = await database.prepare(fquery).bind(fullname);
-    //await ps.bind(fullname);
     result = await ps.all();
-   // return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });
