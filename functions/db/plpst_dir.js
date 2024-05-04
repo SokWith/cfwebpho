@@ -3,8 +3,8 @@ export async function onRequest(context) {
  // const database = context.env.webpho_db;
  // const database = context.env.db_phostore;
   const { username, dirName } = await context.request.json();
-//  const fullname = ${username} + '_' + ${dirName};
+  const fullname = ${username} + '_' + ${dirName};
  // const imgUrl = '';
 
-  return new Response(JSON.stringify(username,dirName), { status: 200 });
+  return new Response(JSON.stringify(fullname), { status: 200 });
  
