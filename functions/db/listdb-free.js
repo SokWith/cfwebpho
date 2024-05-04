@@ -7,12 +7,31 @@ export async function onRequestGet(context) {
   const m = url.searchParams.get('m');
   const n = url.searchParams.get('n');
 
- //const KV_NAMESPACE = 'webphostore';
-  // 获取KV空间中最近m个密钥的列表
-  const keysList = await context.env.webphostore.list({ limit: m });
-  const keys = keysList.keys.map(key => key.name);
-  //const keys = {"sokwith","aaaaaa"};
-  console.log(keys);
+// 检查数据库连接是否已定义
+  if (!database) {
+    return new Response('Database connection not found.', { status: 500 });
+  }
+
+  // 构建SQL查询语句
+  const query = 'SELECT imgURL FROM webphostore ORDER BY update_timestamp DESC LIMIT ?';
+
+  // 执行查询并等待结果
+  try {
+    const ps = await database.prepare(query).bind(m);
+    const photosStringArray = await ps.raw();
+  
+  let photosString  = photosStringArray.map(item => item[0]); // 假设字符串在数组的第一个位置
+  
+
+
+    // 将字符串按换行符分割成数组，每个元素是一个图片URL
+  const result = photosString ? photosString.split('\n') : [];
+    return new Response(JSON.stringify(result), { status: 200 });
+  // return new Response( photosStringtp, { status: 200 });
+  } catch (error) {
+    // 如果查询过程中出现错误，返回错误信息
+    return new Response(error.message, { status: 500 });
+  }
 
   let urls = [];
   for (const key of keys) {
