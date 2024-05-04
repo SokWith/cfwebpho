@@ -176,7 +176,7 @@
             const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
             const validPhotoUrls = photoUrls.filter(url => url.trim() !== '');
             const photoUrlsString = validPhotoUrls.join('\n');
-            const response = await fetch('./submit-photos', {
+            const response = await fetch('./db/addbpho', {
                 method: 'POST',
                 body: JSON.stringify({ username, directory, photoUrlsString }),
                 headers: { 'Content-Type': 'application/json' }
