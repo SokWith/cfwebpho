@@ -14,7 +14,6 @@ export async function onRequestGet(context) {
   const query = 'SELECT imgURL FROM webphostore WHERE ad_name = ?';
 
   // 执行查询并等待结果
-  try {
     const ps = await database.prepare(query).bind(photoUrl,fullname);
    // const photosString = await ps.raw();
     const photosStringArray = await ps.raw();
@@ -32,9 +31,14 @@ export async function onRequestGet(context) {
 
    // 构建SQL更新语句
 const upquery = 'UPDATE webphostore SET imgURL = ? WHERE ad_name = ?';
+ // 执行删除并等待结果
+    try {
+      const ps = await database.prepare(dquery).bind(photoUrls, fullname);
+      await ps.run();
+      return new Response('Directory deleted successfully.', { status: 200 });
+    } catch (error) {
+      // 如果删除过程中出现错误，返回错误信息
+      return new Response(error.message, { status: 500 });
+    }
  
-  } catch (error) {
-    // 如果查询过程中出现错误，返回错误信息
-    return new Response(error.message, { status: 500 });
-  }
 }
