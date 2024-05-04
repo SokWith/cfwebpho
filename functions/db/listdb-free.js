@@ -19,24 +19,14 @@ export async function onRequest(context) {
   try {
     const ps = await database.prepare(query).bind(m);
     const photosStringArray = await ps.raw();
+    return new Response(JSON.stringify(photosStringArray), {
+    headers: { 'Content-Type': 'application/json' },
+    status: 200
+  });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });
   }
 
-    
-  let photosString  = photosStringArray.map(item => item[0]); // 假设字符串在数组的第一个位置
-  // 使用 join() 方法将数组元素连接成一个字符串，然后用 split() 方法以回车符分割
-  const urls = photosString.join('\n').split('\n'); 
-  // 如果获取的URL数量不足n个，则使用所获取的最大数量
-  const maxUrls = urls.length < n ? urls.length : n;
 
-  // 随机抽取n个URL
-  const selectedUrls = urls.sort(() => Math.random() - 0.5).slice(0, maxUrls);
-
-  return new Response(JSON.stringify(selectedUrls), {
- // return new Response(JSON.stringify(keys), {
-    headers: { 'Content-Type': 'application/json' },
-    status: 200
-  });
 }
