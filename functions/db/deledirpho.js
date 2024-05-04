@@ -17,7 +17,7 @@ export async function onRequestGet(context) {
   try {
     const ps = await database.prepare(query).bind(photoUrl,fullname);
    // const photosString = await ps.raw();
-    const photosStringArray = await ps.run();
+    const photosStringArray = await ps.raw();
   
   const photosString  = photosStringArray[0][0]; // 假设字符串在数组的第一个位置
   //    const photosStringtp = typeof photosString; 
@@ -28,11 +28,11 @@ export async function onRequestGet(context) {
   const photoUrls = photosString ? photosString.split('\n') : [];
    // 移除指定的图片URL
   photoUrls = photoUrls.filter(url => url !== photoUrl);
+   photoUrls = photoUrls.join('\n');
 
    // 构建SQL更新语句
 const upquery = 'UPDATE webphostore SET imgURL = ? WHERE ad_name = ?';
-    return new Response(JSON.stringify(photoUrls), { status: 200 });
-  // return new Response( photosStringtp, { status: 200 });
+ 
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });
