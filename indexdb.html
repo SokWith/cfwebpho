@@ -92,10 +92,10 @@
             window.location.href = `/postalb.html?username=${username}`;
         };
 
-        // 页面加载完成后，请求图片URLs并生成瀑布流照片墙
+        // 页面加载完成后，请求图片URLs并生成照片墙
         $(document).ready(function() {
             $.ajax({
-                url: "./list-free?m=10&n=9",
+                url: "./db/listdb-free?m=10&n=9",
                 dataType: "json",
                 success: function(data) {
                     var photoWall = $('.photo-wall');
