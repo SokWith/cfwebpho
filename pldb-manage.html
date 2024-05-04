@@ -109,7 +109,7 @@
         let photoUrls = [];
 
         async function getPhotos() {
-            const response = await fetch(`./db/getdir?username=${username}&directory=${directory}`);
+            const response = await fetch(`./db/getdirpho?username=${username}&directory=${directory}`);
             photoUrls = await response.json();
             const photoWall = document.getElementById('photoWall');
             photoWall.innerHTML = '';
