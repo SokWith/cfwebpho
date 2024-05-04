@@ -21,7 +21,8 @@ export async function onRequestGet(context) {
     const photosStringArray = await ps.raw();
   
   let photosString  = photosStringArray.map(item => item[0]); // 假设字符串在数组的第一个位置
-  
+  // 使用 join() 方法将数组元素连接成一个字符串，然后用 split() 方法以回车符分割
+  const urls = photosString.join('\n').split('\n');  
 
 
     // 将字符串按换行符分割成数组，每个元素是一个图片URL
