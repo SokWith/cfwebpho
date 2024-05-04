@@ -24,7 +24,7 @@ export async function onRequest(context) {
    photoUrls = photoUrls.filter(url => url !== fphotoUrl);
    const upphotoUrl = photoUrls.join('\n');
 
-   return new Response( upphotoUrl, { status: 200 });
+  // return new Response( upphotoUrl, { status: 200 });
  
    // 构建SQL更新语句
 const upquery = 'UPDATE webphostore SET imgURL = ? WHERE ad_name = ?';
