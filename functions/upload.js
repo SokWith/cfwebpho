@@ -1,5 +1,5 @@
 // functions/upload.js
-export async function onRequestPost(context) {
+export async function onRequest(context) {
   const { request, env } = context;
   // 设置CORS头部
   const corsHeaders = {
