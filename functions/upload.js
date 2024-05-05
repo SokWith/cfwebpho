@@ -1,25 +1,39 @@
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
+export default async function handleRequest(request) {
+  // 设置CORS头部
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*', // 允许所有域的访问
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', // 允许的方法
+    'Access-Control-Allow-Headers': 'Content-Type', // 允许的请求头
+    'Access-Control-Max-Age': '86400', // 预检请求的有效期
+  };
 
-async function handleRequest(request) {
+  // 处理OPTIONS预检请求
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      headers: corsHeaders
+    });
+  }
+
   if (request.method === 'POST') {
     // 获取上传的文件
     const formData = await request.formData();
     const file = formData.get('file');
     
-    // 使用提供的API地址和方法上传文件
+    // 使用提供的API地址和方法上传文件https://telegra.ph
     const uploadResponse = await fetch('https://telegra.ph/upload', {
       method: 'POST',
       body: formData
     });
 
-    // 返回上传结果
+    // 返回上传结果，并添加CORS头部
     return new Response(await uploadResponse.text(), {
-      headers: { 'content-type': 'text/plain' }
+      headers: {
+        ...corsHeaders,
+        'content-type': 'text/plain'
+      }
     });
-  } else if (request.url.endsWith('/upload')) {
-    // 返回一个简单的文件上传表单
+  } else {
+    // 返回一个简单的文件上传表单，并添加CORS头部
     const form = `
       <html>
         <body>
@@ -32,12 +46,10 @@ async function handleRequest(request) {
     `;
 
     return new Response(form, {
-      headers: { 'content-type': 'text/html' }
-    });
-  } else {
-    // 处理其他GET请求
-    return new Response('This worker responds to POST requests at /upload', {
-      headers: { 'content-type': 'text/plain' }
+      headers: {
+        ...corsHeaders,
+        'content-type': 'text/html'
+      }
     });
   }
 }
