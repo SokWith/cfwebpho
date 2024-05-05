@@ -1,4 +1,5 @@
-export default async function handleRequest(request) {
+// functions/upload.js
+export async function onRequestPost(context) {
   // 设置CORS头部
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*', // 允许所有域的访问
