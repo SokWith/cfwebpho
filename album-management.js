@@ -52,7 +52,8 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
     }
 
     // 压缩图片并上传
-    const uphostUrl = 'https://testupimg.wook.eu.org';
+    //const uphostUrl = 'https://testupimg.wook.eu.org';
+    const uphostUrl = '.';
     return handleCompressFile(file).then(compressedFile => {
         formData.append("file", compressedFile);
         return fetch(`${uphostUrl}${uploadEndpoint}`, {
