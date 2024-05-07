@@ -11,12 +11,12 @@ export async function onRequest(context) {
 
   // 检测目录是否存在
   // 构建SQL查询语句
-  const fquery = 'SELECT ad_name FROM webphostore WHERE ad_name = ?';
+  const fquery = `SELECT ad_name FROM ${username} WHERE ad_name = ?`;
 
   // 执行查询并等待结果
   let result;
   try {
-    const ps = await database.prepare(fquery).bind(fullname);
+    const ps = await database.prepare(fquery).bind(dirName);
     result = await ps.all();
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
@@ -26,11 +26,11 @@ export async function onRequest(context) {
   // 如果目录存在，则执行删除操作
   if (result.results && result.results.length > 0){
     // 构建SQL删除语句
-    const dquery = 'DELETE FROM webphostore WHERE ad_name = ?';
+    const dquery = `DELETE FROM ${username} WHERE ad_name = ?`;
 
     // 执行删除并等待结果
     try {
-      const ps = await database.prepare(dquery).bind(fullname);
+      const ps = await database.prepare(dquery).bind(dirName);
       await ps.run();
       return new Response('Directory deleted successfully.', { status: 200 });
     } catch (error) {

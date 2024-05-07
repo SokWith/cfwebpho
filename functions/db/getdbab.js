@@ -4,8 +4,6 @@ export async function onRequest(context) {
   const database = context.env.webpho_db;
   const { username, dirName } = await context.request.json();
   const fullname = `${username}_${dirName}`;
-  //const fphotoUrl = `${photoUrl}`;
-  
   
  // 检查数据库连接是否已定义
   if (!database) {
@@ -13,11 +11,11 @@ export async function onRequest(context) {
   }
 
   // 构建SQL查询语句
-  const query = 'SELECT imgURL FROM webphostore WHERE ad_name = ?';
+  const query = `SELECT imgURL FROM ${username} WHERE ad_name = ?`;
 
   // 执行查询并等待结果
   try {
-    const ps = await database.prepare(query).bind(fullname);
+    const ps = await database.prepare(query).bind(dirName);
    // const photosString = await ps.raw();
     const photosStringArray = await ps.raw();
   

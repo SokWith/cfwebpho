@@ -11,10 +11,10 @@ export async function onRequest(context) {
     return new Response('Database connection not found.', { status: 500 });
   }
   // 构建SQL查询语句
-  const query = 'SELECT imgURL FROM webphostore WHERE ad_name = ?';
+  const query = `SELECT imgURL FROM ${username} WHERE ad_name = ?`;
 
   // 执行查询并等待结果
-    const ps = await database.prepare(query).bind(fullname);
+    const ps = await database.prepare(query).bind(dirName);
     const photosStringArray = await ps.raw();  
     const photosString  = photosStringArray[0][0]; // 假设字符串在数组的第一个位置
 
@@ -29,11 +29,19 @@ export async function onRequest(context) {
   // return new Response( upphotoUrl, { status: 200 });
  
    // 构建SQL更新语句
-const upquery = 'UPDATE webphostore SET imgURL = ? WHERE ad_name = ?';
+const upquery = `UPDATE ${username} SET imgURL = ? WHERE ad_name = ?`;
+  // 准备你的 allADD SQL 语句
+ const addallq = `INSERT INTO webphonstore_all (ad_name, imgURL) VALUES (?, ?)
+ON CONFLICT(ad_name) DO UPDATE SET imgURL = excluded.imgURL`;
+
  // 执行删除并等待结果
     try {
-      const upps = await database.prepare(upquery).bind(upphotoUrl, fullname);
+      const upps = await database.prepare(upquery).bind(upphotoUrl, dirName);
       await upps.run();
+      // 准备你的 allADD SQL 语句
+     const stmt = await database.prepare(addallq).bind(fullname,upphotoUrl);
+     // 执行 SQL 语句
+     await stmt.run();
       return new Response('Directory deleted successfully.', { status: 200 });
     } catch (error) {
       // 如果删除过程中出现错误，返回错误信息

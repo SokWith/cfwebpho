@@ -14,14 +14,14 @@ export async function onRequest(context) {
 
   // 检测目录是否存在
   // 构建SQL查询语句
-  const fquery = 'SELECT ad_name FROM webphostore WHERE ad_name = ?';
+  const fquery = `SELECT ad_name FROM ${username} WHERE ad_name = ?`;
 
   // 执行查询并等待结果
   let result;
   try {
-    const ps = await database.prepare(fquery).bind(fullname);
+    const ps = await database.prepare(fquery).bind(directory);
     //await ps.bind(fullname);
-    result = await ps.all();
+    result = await ps.raw();
    // return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
@@ -29,20 +29,16 @@ export async function onRequest(context) {
   }
 
   // 如果目录存在，返回确认信息
-  if (result.results && result.results.length > 0){
+  if (result[0] && result[0].length > 0){
     return new Response('Dir is here!', { status: 209 });
   } else {
-    // 构建SQL插入语句
-    const query = 'INSERT INTO webphostore (ad_name, imgURL) VALUES (?, ?)';
-
-    // 执行插入并等待结果
+    const query = `INSERT INTO ${username} (ad_name, imgURL) VALUES (?, ?)`;
     try {
-      const ps = await database.prepare(query).bind(fullname, imgUrl);
-      await ps.run();
-      return new Response('Data inserted successfully.', { status: 200 });
-    } catch (error) {
-      // 如果插入过程中出现错误，返回错误信息
-      return new Response(error.message, { status: 500 });
-    }
+      const dps = await database.prepare(query).bind(directory, imgUrl);
+      await dps.run();
+      return new Response('Data inserted successfully.', { status: 200 }); 
+      } catch (error) {
+         return new Response(error.message, { status: 500 });
+      }
+   }
   }
-}
