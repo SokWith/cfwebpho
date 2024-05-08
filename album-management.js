@@ -67,8 +67,8 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
 }
 
 // 定义host URL和上传端点
-//const hostUrl = 'https://imghost.wook.eu.org';
-const hostUrl = 'https://telegra.ph';
+const hostUrl = 'https://upimg.wook.eu.org';
+//const hostUrl = 'https://telegra.ph';
 const uploadEndpoint = '/upload';
 
 // 在文档加载完成后添加事件监听器
