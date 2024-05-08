@@ -24,8 +24,6 @@ export async function onRequest(context) {
    photoUrls = photoUrls.filter(url => url !== fphotoUrl);
    const upphotoUrl = photoUrls.join('\n');
 
-  // return new Response( upphotoUrl, { status: 200 });
- 
    // 构建SQL更新语句
 const upquery = `UPDATE ${username} SET imgURL = ? WHERE ad_name = ?`;
  // 执行删除并等待结果

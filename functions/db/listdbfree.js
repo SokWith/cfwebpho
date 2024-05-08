@@ -13,9 +13,7 @@ export async function onRequest(context) {
 
   // 构建SQL查询语句
   const query = 'SELECT imgURL FROM webphonstore_all ORDER BY udatatime DESC LIMIT ?';
- // const query = 'SELECT imgURL FROM webphostore  LIMIT ?';
-
-  // 执行查询并等待结果
+ 
   try {
     const ps = await database.prepare(query).bind(m);
     const photosStringArray = await ps.raw();
@@ -25,10 +23,7 @@ export async function onRequest(context) {
     const allurls = photosString.join('\n').split('\n'); 
     // 使用 filter() 方法移除所有空字符串
     const urls = allurls.filter(url => url.trim() !== '');
- //  return new Response(JSON.stringify(urls), {
- //   headers: { 'Content-Type': 'application/json' },
- //   status: 200
-//  });
+ 
   // 如果获取的URL数量不足n个，则使用所获取的最大数量
   const maxUrls = urls.length < n ? urls.length : n;
 

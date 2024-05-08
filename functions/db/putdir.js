@@ -20,9 +20,7 @@ export async function onRequest(context) {
   let result;
   try {
     const ps = await database.prepare(fquery).bind(directory);
-    //await ps.bind(fullname);
     result = await ps.raw();
-   // return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     // 如果查询过程中出现错误，返回错误信息
     return new Response(error.message, { status: 500 });

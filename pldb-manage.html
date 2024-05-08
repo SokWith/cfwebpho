@@ -109,8 +109,7 @@
         let photoUrls = [];
 
         async function getPhotos() {
-         //   const response = await fetch(`./db/getab?username=${username}&directory=${dirName}`);
-             const response = await fetch(`./db/getdbab`, {
+        const response = await fetch(`./db/getdbab`, {
                 method: 'POST',
                 body: JSON.stringify({ username, dirName }),
                 headers: { 'Content-Type': 'application/json' }

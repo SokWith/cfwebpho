@@ -3,8 +3,7 @@ export async function onRequest(context) {
   const database = context.env.webpho_db;
   //const database = context.env.db_phostore;
   const url = new URL(context.request.url);
-  //let username = url.searchParams.get('username') + '_%';
- // console.log(username);
+  
 
   // 检查数据库连接是否已定义
   if (!database) {
@@ -13,12 +12,6 @@ export async function onRequest(context) {
 
  // 从URL参数中获取表名
 const tableName = url.searchParams.get('username');
-
-// 使用PRAGMA table_info来检查表是否存在
-//const ckps = await database.prepare(`PRAGMA table_info(${tableName})`);
-
- // const checkTableExists = await ckps.raw();
-  //return new Response(JSON.stringify(checkTableExists), { status: 200 });
 
        // 验证表名
   if (!/^[a-zA-Z0-9]+$/.test(tableName)) {
@@ -36,14 +29,7 @@ const tableName = url.searchParams.get('username');
   //  const createTableStmt = await database.prepare(`CREATE TABLE ${tableName} (ad_name TEXT, imgURL TEXT, udatatime TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`);
   const createTableStmt = await database.prepare(createTableQuery);
   await createTableStmt.run();
-
-
-
-  // 使用PRAGMA table_info来检查表是否存在
-  //const reckps = await database.prepare(`PRAGMA table_info(${tableName})`);
-  //const recheckTableExists = await reckps.all();
-  // return new Response(JSON.stringify(recheckTableExists), { status: 200 });
-  
+ 
    // 构建SQL查询语句
   const query = `SELECT ad_name FROM ${tableName}`;
 
