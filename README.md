@@ -11,7 +11,7 @@
 ## 2、在数据库的控制台上添加全局存储表：
     CREATE TABLE IF NOT EXISTS webphonstore_all ( ad_name TEXT UNIQUE, imgURL TEXT, udatatime TIMESTAMP DEFAULT CURRENT_TIMESTAMP )
   添加设置ad_name为唯一约束;
-## 3、CF上创建pages，连接包本项目；
+## 3、CF上创建pages，连接本项目；
 ## 4、将pages连接到数据库，环境变量为 webpho_db;
 ## 5、重建部署；
 
