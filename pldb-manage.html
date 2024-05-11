@@ -77,6 +77,9 @@
             height: 100%;
             object-fit: cover; /* 这将确保图片按比例缩放并填充整个容器 */
         }
+           .img-container:hover .img {
+            display: none; /* 鼠标悬停时显示文本 */
+        }
         .img-text {
             display: block; /* 默认不显示文本 */
             position: absolute;
@@ -92,9 +95,6 @@
             word-wrap: break-word; /* 允许自动换行 */
             line-height: 2; /* 设置行间距为字体高度的2倍 */
             overflow: auto; /* 隐藏溢出的文本 */
-        }
-        .img-container:hover .img {
-            display: none; /* 鼠标悬停时显示文本 */
         }
         .delete-btn {
             position: absolute;
