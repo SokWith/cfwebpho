@@ -27,7 +27,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 1;
+            z-index: 1000; /* 确保模态窗口在最上层 */
             padding-top: 100px;
             left: 0;
             top: 0;
@@ -63,6 +63,38 @@
             display: inline-block;
             position: relative;
             margin: 5px;
+            width: 150px; /* 设置图框的固定宽度 */
+            height: 150px; /* 设置图框的固定高度 */
+            background-color: rgba(255, 255, 255, 0); /* 半透明背景 */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            text-align: center; /* 使文本居中 */
+            line-height: 100px; /* 使文本垂直居中 */
+        }
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 这将确保图片按比例缩放并填充整个容器 */
+        }
+        .img-text {
+            display: block; /* 默认不显示文本 */
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            padding: 5px; /* 添加内边距 */
+            box-sizing: border-box; /* 确保内边距不会影响总宽度和高度 */
+            background-color: rgba(255, 255, 255, 0.5); /* 半透明背景 */
+            color: black; /* 文本颜色 */
+            z-index: -1; /* 将文本放在底层 */
+            word-wrap: break-word; /* 允许自动换行 */
+            line-height: 2; /* 设置行间距为字体高度的2倍 */
+            overflow: auto; /* 隐藏溢出的文本 */
+        }
+        .img-container:hover .img-text {
+            display: block; /* 鼠标悬停时显示文本 */
         }
         .delete-btn {
             position: absolute;
@@ -72,18 +104,18 @@
             color: white;
             border: none;
             cursor: pointer;
+            z-index: 10; /* 确保删除按钮在最上层 */
+        }
+        .modal-open .delete-btn {
+            display: none; /* 当模态窗口打开时隐藏删除按钮 */
         }
         @media (max-width: 768px) {
             .modal-content {
                 width: 90%;
             }
-            .img-container img {
-                width: 100%;
-                max-width: 150px;
-            }
             .img-container {
                 width: calc(50% - 10px);
-                margin: 5px;
+                height: 150px; /* 调整为适合移动设备的大小 */
             }
         }
     </style>
@@ -109,7 +141,7 @@
         let photoUrls = [];
 
         async function getPhotos() {
-        const response = await fetch(`./db/getdbab`, {
+            const response = await fetch(`./db/getdbab`, {
                 method: 'POST',
                 body: JSON.stringify({ username, dirName }),
                 headers: { 'Content-Type': 'application/json' }
@@ -121,10 +153,17 @@
                 let imgContainer = document.createElement('div');
                 imgContainer.classList.add('img-container');
 
+                let imgText = document.createElement('div');
+                imgText.classList.add('img-text');
+                imgText.textContent = url.split('/').pop(); // 显示图片的链接文本
+                imgContainer.appendChild(imgText);
+
                 let img = document.createElement('img');
                 img.src = url;
-                img.style.width = '100px';
+                img.style.width = '100%';
+                img.style.height = '100%';
                 img.onclick = function() {
+                    document.body.classList.add('modal-open');
                     document.getElementById('myModal').style.display = "block";
                     document.getElementById('img01').src = this.src;
                 }
@@ -134,7 +173,6 @@
                 deleteButton.textContent = '删除';
                 deleteButton.classList.add('delete-btn');
                 deleteButton.onclick = function() {
-                    // 添加确认操作
                     if (confirm('确定要删除这张图片吗？')) {
                         deletePhoto(url);
                     }
@@ -160,14 +198,11 @@
             }
         }
 
-
-        // 获取模态窗口元素
         var modal = document.getElementById('myModal');
-        // 获取 <span> 元素，用于关闭模态窗口
         var span = document.getElementsByClassName("close")[0];
 
-        // 当用户点击 <span> (x), 关闭模态窗口
         span.onclick = function() {
+            document.body.classList.remove('modal-open');
             modal.style.display = "none";
         }
 
@@ -181,29 +216,25 @@
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
-                
                 window.location.reload();
             } else {
-                 
                 console.error('Failed to submit photo');
             }
         }
 
         document.getElementById('backupAlbum').onclick = function() {
-    // 使用Array.join方法连接数组元素，并确保不会有多余的回车符
-    const photoUrlsString = photoUrls.join('\n').replace(/(^\s*\n)|(\n\s*$)/g, '');
-    const blob = new Blob([photoUrlsString], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${dirName}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-};
+            const photoUrlsString = photoUrls.join('\n').replace(/(^\s*\n)|(\n\s*$)/g, '');
+            const blob = new Blob([photoUrlsString], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${dirName}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
 
         getPhotos();
     </script>
-    <!-- 引入新的JavaScript文件 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
     <script src="album-management.js"></script>
 </body>
