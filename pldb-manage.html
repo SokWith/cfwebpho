@@ -12,6 +12,17 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
+           /* 返回首页按钮样式 */
+        #returnHome {
+            position: fixed;
+            top: 10px;
+            right: 150px; /* 根据备份相册按钮的宽度调整，使其与备份相册按钮平齐 */
+            padding: 10px 20px; /* 与备份相册按钮的内边距相同 */
+            background-color: #28a745; /* 绿色背景 */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
         /* 备份按钮样式 */
         #backupAlbum {
             position: fixed;
@@ -121,6 +132,8 @@
     </style>
 </head>
 <body>
+    <!-- 添加返回首页按钮 -->
+    <button id="returnHome">返回首页</button>
     <button id="backupAlbum">备份相册</button>
     <h1 id="albumTitle"></h1>
     <div id="photoWall"></div>
@@ -234,6 +247,10 @@
         };
 
         getPhotos();
+          // 返回首页按钮的点击事件
+    document.getElementById('returnHome').onclick = function() {
+        window.location.href = '/'; // 这里的 '/' 表示网站的根目录，根据实际情况修改
+    };
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
     <script src="album-management.js"></script>
