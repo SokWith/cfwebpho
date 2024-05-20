@@ -12,11 +12,11 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
-           /* 返回首页按钮样式 */
+        /* 返回首页按钮样式 */
         #returnHome {
             position: fixed;
             top: 10px;
-            right: 150px; /* 根据备份相册按钮的宽度调整，使其与备份相册按钮平齐 */
+            right: 250px; /* 根据备份相册按钮和批量删除按钮的宽度调整，使其平齐 */
             padding: 10px 20px; /* 与备份相册按钮的内边距相同 */
             background-color: #28a745; /* 绿色背景 */
             color: white;
@@ -27,9 +27,20 @@
         #backupAlbum {
             position: fixed;
             top: 10px;
-            right: 10px;
+            right: 130px;
             padding: 10px 20px;
             background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        /* 批量删除按钮样式 */
+        #batchDelete {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #dc3545; /* 红色背景 */
             color: white;
             border: none;
             cursor: pointer;
@@ -71,11 +82,9 @@
         }
         /* 图片和删除按钮的容器样式 */
         .img-container {
-            display: inline-block;
-            position: relative;
+            position: absolute; /* 瀑布流布局需要使用绝对定位 */
             margin: 5px;
             width: 150px; /* 设置图框的固定宽度 */
-            height: 100px; /* 设置图框的固定高度 */
             background-color: rgba(255, 255, 255, 0); /* 半透明背景 */
             background-repeat: no-repeat;
             background-position: center;
@@ -85,7 +94,7 @@
         }
         .img-container img {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: cover; /* 这将确保图片按比例缩放并填充整个容器 */
         }
         .img-text {
@@ -107,18 +116,11 @@
         .img-container:hover img {
             box-shadow: inset 0 0 0 5px green; /* 鼠标悬停时添加金色边框 opacity: 0.9; /* 鼠标悬停时图片半透明 */*/
         }
-        .delete-btn {
+        .select-checkbox {
             position: absolute;
-            top: 0;
-            left: 0;
-            background-color: red;
-            color: white;
-            border: none;
-            cursor: pointer;
-            z-index: 10; /* 确保删除按钮在最上层 */
-        }
-        .modal-open .delete-btn {
-            display: none; /* 当模态窗口打开时隐藏删除按钮 */
+            top: 5px;
+            left: 5px;
+            z-index: 10; /* 确保复选框在最上层 */
         }
         @media (max-width: 768px) {
             .modal-content {
@@ -126,7 +128,6 @@
             }
             .img-container {
                 width: calc(50% - 10px);
-                height: 150px; /* 调整为适合移动设备的大小 */
             }
         }
     </style>
@@ -135,6 +136,7 @@
     <!-- 添加返回首页按钮 -->
     <button id="returnHome">返回首页</button>
     <button id="backupAlbum">备份相册</button>
+    <button id="batchDelete">批量删除</button>
     <h1 id="albumTitle"></h1>
     <div id="photoWall"></div>
     <textarea id="photoUrl" placeholder="输入图片URL地址，每行一个；无输入请选择图片上传：" cols="60" rows="5"></textarea>
@@ -168,13 +170,13 @@
 
                 let imgText = document.createElement('div');
                 imgText.classList.add('img-text');
-                imgText.textContent = url;//.split('/').pop(); // 显示图片的链接文本
+                imgText.textContent = url;
                 imgContainer.appendChild(imgText);
 
                 let img = document.createElement('img');
                 img.src = url;
                 img.style.width = '100%';
-                img.style.height = '100%';
+                img.style.height = 'auto';
                 img.onclick = function() {
                     document.body.classList.add('modal-open');
                     document.getElementById('myModal').style.display = "block";
@@ -182,32 +184,30 @@
                 }
                 imgContainer.appendChild(img);
 
-                let deleteButton = document.createElement('button');
-                deleteButton.textContent = '删除';
-                deleteButton.classList.add('delete-btn');
-                deleteButton.onclick = function() {
-                    if (confirm('确定要删除这张图片吗？')) {
-                        deletePhoto(url);
-                    }
-                };
-                imgContainer.appendChild(deleteButton);
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('select-checkbox');
+                imgContainer.appendChild(checkbox);
 
                 photoWall.appendChild(imgContainer);
             });
+
+            // 调用瀑布流布局函数
+            waterfallHandler();
         }
 
-        async function deletePhoto(photoUrl) {
+        async function deletePhotos(photoUrls) {
             const response = await fetch('./db/deledbpho', {
                 method: 'POST',
-                body: JSON.stringify({ username, dirName, photoUrl }),
+                body: JSON.stringify({ username, dirName, photoUrls }),
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
                 alert('图片删除成功，请稍后刷新信息');
                 window.location.reload();
             } else {
-                alert('图片删除失败，请稍后重试.....');
-                console.error('Failed to delete photo');
+                alert('图片删除失败，请稍后重试');
+                console.error('Failed to delete photos');
             }
         }
 
@@ -246,13 +246,47 @@
             document.body.removeChild(a);
         };
 
+        document.getElementById('batchDelete').onclick = function() {
+            const selectedPhotos = Array.from(document.getElementsByClassName('select-checkbox'))
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.nextSibling.src);
+            if (selectedPhotos.length > 0 && confirm('确定要删除选中的图片吗？')) {
+                deletePhotos(selectedPhotos);
+            }
+        };
+
         getPhotos();
-          // 返回首页按钮的点击事件
-    document.getElementById('returnHome').onclick = function() {
-        window.location.href = '/'; // 这里的 '/' 表示网站的根目录，根据实际情况修改
-    };
+
+        // 返回首页按钮的点击事件
+        document.getElementById('returnHome').onclick = function() {
+            window.location.href = '/'; // 这里的 '/' 表示网站的根目录，根据实际情况修改
+        };
+
+        // 瀑布流处理
+        function waterfallHandler() {
+            const photoWall = document.getElementById('photoWall');
+            const imgContainers = photoWall.getElementsByClassName('img-container');
+            const imgWidth = 150; // 设置图片的固定宽度
+            const column = parseInt(window.innerWidth / imgWidth);
+            let heightArr = Array(column).fill(0);
+            Array.from(imgContainers).forEach(item => {
+                const itemHeight = item.offsetHeight;
+                const minHeight = Math.min(...heightArr);
+                const minIndex = heightArr.indexOf(minHeight);
+                item.style.position = 'absolute';
+                item.style.top = minHeight + 'px';
+                item.style.left = minIndex * imgWidth + 'px';
+                heightArr[minIndex] += itemHeight;
+            });
+        }
+
+        // 窗口大小改变
+        window.addEventListener('resize', function() {
+            waterfallHandler();
+        });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
     <script src="album-management.js"></script>
 </body>
 </html>
+
